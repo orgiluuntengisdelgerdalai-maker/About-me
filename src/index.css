@@ -1,0 +1,58 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    background-color: #030306;
+    color: #e2e8f0;
+    font-family: 'Space Grotesk', 'Plus Jakarta Sans', sans-serif;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, .font-heading {
+    font-family: 'Orbitron', 'Space Grotesk', sans-serif;
+    letter-spacing: 0.05em;
+  }
+
+  .font-mono-code {
+    font-family: 'Fira Code', monospace;
+  }
+}
+
+/* Cosmic coordinate grid pattern */
+.cosmic-grid {
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 100px 100px;
+}
+
+/* Subtle starfield particles */
+.stars-bg {
+  background-image: 
+    radial-gradient(1px 1px at 20px 30px, #ffffff, rgba(0,0,0,0)),
+    radial-gradient(1px 1px at 40px 70px, rgba(255,255,255,0.7), rgba(0,0,0,0)),
+    radial-gradient(1.5px 1.5px at 90px 40px, #38bdf8, rgba(0,0,0,0)),
+    radial-gradient(1px 1px at 160px 120px, #f59e0b, rgba(0,0,0,0)),
+    radial-gradient(1.5px 1.5px at 230px 190px, #ffffff, rgba(0,0,0,0)),
+    radial-gradient(1px 1px at 310px 80px, rgba(255,255,255,0.8), rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 450px 240px, #06b6d4, rgba(0,0,0,0));
+  background-repeat: repeat;
+  background-size: 480px 480px;
+}
+
+/* Cut-corner sci-fi card style like in the user's reference image */
+.hud-cut-card {
+  clip-path: polygon(
+    0 0,
+    calc(100% - 14px) 0,
+    100% 14px,
+    100% 100%,
+    14px 100%,
+    0 calc(100% - 14px)
+  );
+}
+
+/* Glowing text and objects */
+.glow-nebula {
+  filter: drop-shadow(0 0 45px rgba(245, 158, 11, 0.35)) drop-shadow(0 0 90px rgba(14, 165, 233, 0.25));
+}

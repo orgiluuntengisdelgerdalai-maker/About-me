@@ -1,0 +1,6 @@
+{
+  "name": "Оргилүүн-Тэнгисийн ертөнц | Хувийн танилцуулга",
+  "description": "12 настай, ирээдүйн программ хангамжийн инженер Оргилүүн-Тэнгисийн танилцуулга вэбсайт.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
