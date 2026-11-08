@@ -93,6 +93,17 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavClick }) => {
             <span>MY DREAM</span>
             <ExternalLink className="w-3 h-3" />
           </a>
+
+          <a
+            href="https://adorable-lokum-0ba4ae.netlify.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-3.5 py-1.5 bg-amber-950/40 hover:bg-amber-900/60 text-amber-300 border border-amber-500/30 text-[11px] font-heading tracking-wider font-semibold rounded-lg transition-all flex items-center gap-1.5"
+            title="Тооцоолуур вэбсайт руу зочлох"
+          >
+            <span>ТООЦООЛУУР</span>
+            <ExternalLink className="w-3 h-3" />
+          </a>
         </div>
       </div>
     </header>

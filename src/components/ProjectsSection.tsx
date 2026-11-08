@@ -28,14 +28,26 @@ export const ProjectsSection: React.FC = () => {
       btnColor: 'bg-cyan-600 hover:bg-cyan-500',
     },
     {
+      id: 'calculator-project',
+      title: 'Тооцоолуур',
+      subtitle: 'Миний хийсэн онлайн тооцоолуур вэб',
+      description:
+        'Оргилүүн-Тэнгисийн кодлож бүтээсэн ухаалаг математик тооцоолуур вэбсайт. Netlify дээр байршсан.',
+      url: 'https://adorable-lokum-0ba4ae.netlify.app',
+      tag: '04-C / ВЭБ ХЭРЭГСЭЛ',
+      icon: Rocket,
+      color: 'border-amber-500/30 text-amber-400 bg-amber-950/20',
+      btnColor: 'bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400',
+    },
+    {
       id: 'minecraft-project',
       title: 'Minecraft Redstone Цайз',
       subtitle: 'Автомат ферм ба хамгаалалтын систем',
       description:
         'Minecraft тоглоом дотор бүтээсэн 100% автомат ургац хураагч болон дайснуудаас хамгаалах Redstone логик цайз.',
       url: '#minecraft-food',
-      tag: '04-C / ТОГЛООМЫН СИСТЕМ',
-      icon: Rocket,
+      tag: '04-D / ТОГЛООМЫН СИСТЕМ',
+      icon: Sparkles,
       color: 'border-emerald-500/30 text-emerald-400 bg-emerald-950/20',
       btnColor: 'bg-emerald-600 hover:bg-emerald-500',
       isInternal: true,
@@ -63,11 +75,11 @@ export const ProjectsSection: React.FC = () => {
         </div>
 
         <span className="text-xs font-mono text-slate-400 tracking-wider">
-          НИЙТ: 2 ШУУД ЛИНК + ШИНЭ ТӨСЛҮҮД
+          НИЙТ: 3 ШУУД ЛИНК + БҮТЭЭЛҮҮД
         </span>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {projects.map((proj) => {
           const Icon = proj.icon;
           return (

@@ -76,7 +76,16 @@ export default function App() {
               rel="noopener noreferrer"
               className="px-4 py-2 bg-red-600/80 hover:bg-red-500 text-xs font-heading tracking-wider uppercase text-white rounded-xl transition-all flex items-center gap-1.5 cursor-pointer shadow-lg"
             >
-              <span>Uutube Үзэх</span>
+              <span>Uutube</span>
+              <ArrowUpRight className="w-3.5 h-3.5" />
+            </a>
+            <a
+              href="https://adorable-lokum-0ba4ae.netlify.app"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-4 py-2 bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-xs font-heading tracking-wider uppercase text-white rounded-xl transition-all flex items-center gap-1.5 cursor-pointer shadow-lg"
+            >
+              <span>Тооцоолуур</span>
               <ArrowUpRight className="w-3.5 h-3.5" />
             </a>
           </div>
@@ -143,6 +152,15 @@ export default function App() {
               className="hover:text-cyan-400 transition-colors"
             >
               My Dream
+            </a>
+            <span className="text-slate-700">·</span>
+            <a
+              href="https://adorable-lokum-0ba4ae.netlify.app"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-amber-400 transition-colors"
+            >
+              Тооцоолуур
             </a>
             <span className="text-slate-700">·</span>
             <button
