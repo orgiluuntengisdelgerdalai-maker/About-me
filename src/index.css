@@ -56,3 +56,45 @@
 .glow-nebula {
   filter: drop-shadow(0 0 45px rgba(245, 158, 11, 0.35)) drop-shadow(0 0 90px rgba(14, 165, 233, 0.25));
 }
+
+/* Gentle cosmic nebula rotation */
+@keyframes slowGalaxySpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes reverseCosmicSpin {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes nebulaBreath {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.85;
+  }
+  50% {
+    transform: scale(1.06);
+    opacity: 1;
+  }
+}
+
+.animate-galaxy-spin {
+  animation: slowGalaxySpin 120s linear infinite;
+}
+
+.animate-reverse-spin {
+  animation: reverseCosmicSpin 80s linear infinite;
+}
+
+.animate-nebula-breath {
+  animation: nebulaBreath 8s ease-in-out infinite;
+}

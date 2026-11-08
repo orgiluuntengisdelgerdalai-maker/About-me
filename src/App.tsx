@@ -6,6 +6,7 @@ import { MinecraftAndFood } from './components/MinecraftAndFood';
 import { CodeTerminal } from './components/CodeTerminal';
 import { ProjectsSection } from './components/ProjectsSection';
 import { Guestbook } from './components/Guestbook';
+import { AnimatedGalaxyCanvas } from './components/AnimatedGalaxyCanvas';
 import { Flame, Sparkles, ArrowUpRight, Compass } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -32,9 +33,12 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#030306] text-slate-100 flex flex-col font-sans selection:bg-cyan-400 selection:text-black relative">
+      {/* Dynamic Animated Galaxy Starfield & Cosmic Swirl Background */}
+      <AnimatedGalaxyCanvas />
+
       {/* Ambient Celestial Glows in the background */}
-      <div className="fixed top-0 left-1/4 w-[600px] h-[600px] bg-cyan-600/5 rounded-full blur-[140px] pointer-events-none"></div>
-      <div className="fixed bottom-10 right-10 w-[500px] h-[500px] bg-amber-500/5 rounded-full blur-[140px] pointer-events-none"></div>
+      <div className="fixed top-0 left-1/4 w-[600px] h-[600px] bg-cyan-600/10 rounded-full blur-[140px] pointer-events-none z-0"></div>
+      <div className="fixed bottom-10 right-10 w-[500px] h-[500px] bg-amber-500/10 rounded-full blur-[140px] pointer-events-none z-0"></div>
 
       {/* Top Navbar */}
       <Navbar onNavClick={scrollToSection} />

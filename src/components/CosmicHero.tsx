@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ArrowRight, ExternalLink, Sparkles, VolumeX, Code, Play } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import { BlackHoleVisual } from './BlackHoleVisual';
 
 interface SlideItem {
   id: string;
@@ -112,34 +113,9 @@ export const CosmicHero: React.FC<CosmicHeroProps> = ({ onNavigateSection }) => 
       {/* Background Deep Cosmic Gradients */}
       <div className="absolute inset-0 bg-radial from-transparent via-black/40 to-black pointer-events-none"></div>
 
-      {/* Center Cosmic Nebula (The Eye of God / Core Star) matching user's image */}
-      <div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-700 ease-out z-0 flex items-center justify-center"
-        style={{ transform: `translate(-50%, -50%) scale(${zoomLevel})` }}
-      >
-        {/* Glow halo */}
-        <div className="absolute w-[420px] h-[420px] md:w-[580px] md:h-[580px] rounded-full bg-gradient-to-tr from-amber-600/25 via-orange-500/20 to-sky-500/25 blur-3xl opacity-90 animate-pulse"></div>
-
-        {/* Central Nebula Graphic (using user provided nebula visual or stylized high-res rendition) */}
-        <div className="relative w-[340px] h-[340px] md:w-[520px] md:h-[520px] rounded-full overflow-hidden flex items-center justify-center glow-nebula group">
-          <img
-            src="/assets/aistudio/original-866bf700bbacf33f246bd61505f9aac6_5f453a15.webp"
-            alt="Cosmic Eye Nebula"
-            className="w-full h-full object-cover rounded-full scale-110 opacity-90 transition-transform duration-1000 group-hover:scale-125"
-            onError={(e) => {
-              // Fallback if local asset is served differently
-              (e.target as HTMLImageElement).src =
-                'https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?auto=format&fit=crop&w=1200&q=80';
-            }}
-          />
-
-          {/* Interactive hover overlay */}
-          <div className="absolute inset-0 rounded-full bg-radial from-transparent via-transparent to-black/60"></div>
-          
-          {/* Subtle center pupil light */}
-          <div className="absolute w-12 h-12 rounded-full bg-sky-200/50 blur-md pointer-events-none"></div>
-          <div className="absolute w-2 h-2 rounded-full bg-white shadow-[0_0_15px_#fff]"></div>
-        </div>
+      {/* Center Cosmic Phenomenon: INTERACTIVE ROTATING BLACK HOLE (Хар нүх) */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-0">
+        <BlackHoleVisual zoomLevel={zoomLevel} />
       </div>
 
       {/* Main Content Grid: Left Details + Right Related Carousel */}
