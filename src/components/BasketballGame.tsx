@@ -71,7 +71,7 @@ export const BasketballGame: React.FC = () => {
             <span>САГСАН БӨМБӨГ</span>
           </div>
           <h3 className="text-2xl sm:text-3xl font-heading font-bold mt-1 text-white">
-            Оргилүүн-Тэнгисийн Сагсны Талбай 🏀
+            Оргилуунтэнгисийн Сагсны Талбай 🏀
           </h3>
           <p className="text-slate-400 text-sm mt-1 max-w-lg font-light leading-relaxed">
             Миний хамгийн дуртай хобби бол сагсан бөмбөг тоглох! Цагираг руу бөмбөг шидэж оноо аваарай.

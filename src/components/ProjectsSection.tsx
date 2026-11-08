@@ -32,7 +32,7 @@ export const ProjectsSection: React.FC = () => {
       title: 'Тооцоолуур',
       subtitle: 'Миний хийсэн онлайн тооцоолуур вэб',
       description:
-        'Оргилүүн-Тэнгисийн кодлож бүтээсэн ухаалаг математик тооцоолуур вэбсайт. Netlify дээр байршсан.',
+        'Оргилуунтэнгисийн кодлож бүтээсэн ухаалаг математик тооцоолуур вэбсайт. Netlify дээр байршсан.',
       url: 'https://adorable-lokum-0ba4ae.netlify.app',
       tag: '04-C / ВЭБ ХЭРЭГСЭЛ',
       icon: Rocket,

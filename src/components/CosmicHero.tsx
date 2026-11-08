@@ -41,7 +41,7 @@ const SLIDES: SlideItem[] = [
     titleLight: 'The',
     titleBold: 'CODE ENGINEER',
     description:
-      'Намайг Оргилүүн-Тэнгис гэдэг. Би 12 настай. Миний хамгийн том мөрөөдөл бол дэлхийн хэмжээний чадварлаг код инженер болж, хүн төрөлхтөнд хэрэгтэй агуу системийг бүтээх явдал юм.',
+      'Намайг Оргилуунтэнгис гэдэг. Би 12 настай. Миний хамгийн том мөрөөдөл бол дэлхийн хэмжээний чадварлаг код инженер болж, хүн төрөлхтөнд хэрэгтэй агуу системийг бүтээх явдал юм.',
     stat1Label: 'Нас / Төлөв',
     stat1Value: '12 НАСТАЙ',
     stat2Label: 'Ирээдүйн зорилго',
@@ -179,7 +179,7 @@ export const CosmicHero: React.FC<CosmicHeroProps> = ({ onNavigateSection }) => 
 
               <div className="flex items-center gap-2 text-xs font-mono text-slate-400">
                 <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-                <span>Оргилүүн-Тэнгисийн Ертөнц</span>
+                <span>Оргилуунтэнгисийн Ертөнц</span>
               </div>
             </div>
           </div>

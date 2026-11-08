@@ -141,7 +141,7 @@ export const MinecraftAndFood: React.FC = () => {
         <div className="mt-6 pt-5 border-t border-white/10 flex items-center justify-between">
           <div>
             <span className="text-[10px] text-slate-400 font-mono block tracking-widest uppercase">
-              ОРГИЛҮҮН-ТЭНГИСИЙН СТАТУС
+              ОРГИЛУУНТЭНГИСИЙН СТАТУС
             </span>
             <div className="flex items-center gap-2">
               <span className="text-2xl font-heading font-extrabold text-amber-400">

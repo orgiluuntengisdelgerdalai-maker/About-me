@@ -58,7 +58,7 @@ export default function App() {
             </div>
             <div>
               <span className="text-[10px] font-mono text-slate-400 uppercase tracking-widest block">
-                ОРГИЛҮҮН-ТЭНГИСИЙН СТАТУС
+                ОРГИЛУУНТЭНГИСИЙН СТАТУС
               </span>
               <span className="text-sm font-heading font-bold text-white tracking-wide">
                 12 Настай · Сагсан бөмбөг & Minecraft · Ирээдүйн Код Инженер
@@ -131,7 +131,7 @@ export default function App() {
               <div className="w-3 h-3 rounded-full bg-blue-600 -ml-1 opacity-90 shadow-[0_0_8px_#2563eb]"></div>
             </div>
             <span className="font-heading font-bold text-white tracking-widest uppercase">
-              ОРГИЛҮҮН-ТЭНГИС
+              ОРГИЛУУНТЭНГИС
             </span>
             <span className="text-slate-600">|</span>
             <span className="font-mono text-[11px] text-slate-400">

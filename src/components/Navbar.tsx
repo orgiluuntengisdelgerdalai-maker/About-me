@@ -22,7 +22,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavClick }) => {
 
           <div className="flex flex-col">
             <span className="font-heading text-xs sm:text-sm font-bold tracking-widest text-white uppercase group-hover:text-cyan-300 transition-colors">
-              ОРГИЛҮҮН-ТЭНГИС · GALAXY
+              ОРГИЛУУНТЭНГИС · GALAXY
             </span>
             <span className="text-[10px] font-mono text-slate-400 tracking-wider">
               12 НАСТАЙ · ИРЭЭДҮЙН ИНЖЕНЕР
