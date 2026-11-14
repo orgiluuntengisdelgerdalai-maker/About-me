@@ -1,0 +1,104 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Public player profile for the Games Hub.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "Firebase Auth UID of the player.",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Display name shown on leaderboards.",
+          "minLength": 1,
+          "maxLength": 60
+        },
+        "photoURL": {
+          "type": "string",
+          "description": "Optional avatar URL.",
+          "maxLength": 500
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when profile was created."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when profile was last updated."
+        }
+      },
+      "required": ["uid", "displayName", "createdAt", "updatedAt"]
+    },
+    "GameScore": {
+      "title": "GameScore",
+      "description": "A recorded game score entry for Basketball or Ultimate Anime Quiz.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Firebase Auth UID of the player who achieved this score.",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "playerName": {
+          "type": "string",
+          "description": "Player name displayed on the leaderboard.",
+          "minLength": 1,
+          "maxLength": 60
+        },
+        "gameId": {
+          "type": "string",
+          "description": "Identifier of the game.",
+          "enum": ["basketball", "anime-quiz"],
+          "maxLength": 32
+        },
+        "difficulty": {
+          "type": "string",
+          "description": "Difficulty mode played.",
+          "enum": ["standard", "easy", "medium", "hard", "god"],
+          "maxLength": 20
+        },
+        "score": {
+          "type": "number",
+          "description": "Numeric score achieved in the session."
+        },
+        "streak": {
+          "type": "number",
+          "description": "Best consecutive streak achieved in the session."
+        },
+        "timeLeftSeconds": {
+          "type": "number",
+          "description": "Remaining or per-question timer seconds."
+        },
+        "won": {
+          "type": "boolean",
+          "description": "Whether the player won/passed the challenge."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when score was recorded."
+        }
+      },
+      "required": ["userId", "playerName", "gameId", "difficulty", "score", "streak", "timeLeftSeconds", "won", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Player profiles indexed by Firebase Auth UID."
+    },
+    "/game_scores/{scoreId}": {
+      "schema": { "$ref": "#/entities/GameScore" },
+      "description": "Global game score records and leaderboard entries."
+    }
+  }
+}

@@ -1,18 +1,28 @@
 import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
-import { Award, RotateCcw, VolumeX, Flame, Sparkles } from 'lucide-react';
+import { Award, RotateCcw, VolumeX, Flame, Save, Check } from 'lucide-react';
+import { User } from 'firebase/auth';
+import { saveGameScore, signInWithGoogle } from '../firebase';
 
-export const BasketballGame: React.FC = () => {
+interface BasketballGameProps {
+  currentUser?: User | null;
+}
+
+export const BasketballGame: React.FC<BasketballGameProps> = ({ currentUser }) => {
   const [score, setScore] = useState<number>(0);
   const [streak, setStreak] = useState<number>(0);
+  const [bestStreak, setBestStreak] = useState<number>(0);
   const [isShooting, setIsShooting] = useState<boolean>(false);
   const [lastResult, setLastResult] = useState<string | null>(null);
   const [ballPosition, setBallPosition] = useState<{ x: number; y: number }>({ x: 50, y: 80 });
+  const [savingScore, setSavingScore] = useState<boolean>(false);
+  const [saveMessage, setSaveMessage] = useState<string | null>(null);
 
   const shootBall = (power: 'normal' | 'three_pointer' = 'normal') => {
     if (isShooting) return;
     setIsShooting(true);
     setLastResult(null);
+    setSaveMessage(null);
 
     const isSuccess = Math.random() > 0.15;
     const points = power === 'three_pointer' ? 3 : 2;
@@ -26,6 +36,7 @@ export const BasketballGame: React.FC = () => {
         setScore((prev) => prev + points);
         setStreak((prev) => {
           const next = prev + 1;
+          setBestStreak((b) => Math.max(b, next));
           if (next % 3 === 0) {
             confetti({
               particleCount: 60,
@@ -52,8 +63,35 @@ export const BasketballGame: React.FC = () => {
   const resetGame = () => {
     setScore(0);
     setStreak(0);
+    setBestStreak(0);
     setLastResult(null);
+    setSaveMessage(null);
     setBallPosition({ x: 50, y: 80 });
+  };
+
+  const handleSaveToDb = async () => {
+    if (score <= 0 || savingScore) return;
+    setSavingScore(true);
+    setSaveMessage(null);
+    try {
+      if (!currentUser) {
+        await signInWithGoogle();
+      }
+      await saveGameScore({
+        gameId: 'basketball',
+        difficulty: 'standard',
+        score,
+        streak: bestStreak,
+        timeLeftSeconds: 0,
+        won: true,
+      });
+      setSaveMessage('✅ DB-д хадгалагдлаа!');
+    } catch (err) {
+      console.error('Failed to save basketball score:', err);
+      setSaveMessage('Хадгалж чадсангүй. Дахин оролдоно уу.');
+    } finally {
+      setSavingScore(false);
+    }
   };
 
   return (
@@ -79,27 +117,53 @@ export const BasketballGame: React.FC = () => {
         </div>
 
         {/* Scoreboard HUD */}
-        <div className="flex items-center gap-4 bg-white/5 border border-white/10 rounded-2xl px-6 py-3.5 backdrop-blur-md">
-          <div className="text-center">
-            <span className="text-[10px] text-slate-400 font-mono block tracking-widest uppercase">
-              НИЙТ ОНОО
-            </span>
-            <span className="text-3xl font-heading font-extrabold text-amber-400">{score}</span>
+        <div className="flex flex-col items-end gap-2">
+          <div className="flex items-center gap-4 bg-white/5 border border-white/10 rounded-2xl px-6 py-3.5 backdrop-blur-md">
+            <div className="text-center">
+              <span className="text-[10px] text-slate-400 font-mono block tracking-widest uppercase">
+                НИЙТ ОНОО
+              </span>
+              <span className="text-3xl font-heading font-extrabold text-amber-400">{score}</span>
+            </div>
+            <div className="h-8 w-px bg-white/10"></div>
+            <div className="text-center">
+              <span className="text-[10px] text-slate-400 font-mono block tracking-widest uppercase flex items-center justify-center gap-1">
+                <Flame className="w-3 h-3 text-orange-400" /> СТРЕАК
+              </span>
+              <span className="text-3xl font-heading font-extrabold text-orange-400">{streak}</span>
+            </div>
+            <button
+              onClick={resetGame}
+              title="Тоглоом шинэчлэх"
+              className="ml-2 p-2 text-slate-400 hover:text-white transition-colors rounded-lg hover:bg-white/10 cursor-pointer"
+            >
+              <RotateCcw className="w-4 h-4" />
+            </button>
           </div>
-          <div className="h-8 w-px bg-white/10"></div>
-          <div className="text-center">
-            <span className="text-[10px] text-slate-400 font-mono block tracking-widest uppercase flex items-center justify-center gap-1">
-              <Flame className="w-3 h-3 text-orange-400" /> СТРЕАК
-            </span>
-            <span className="text-3xl font-heading font-extrabold text-orange-400">{streak}</span>
+
+          <div className="flex items-center gap-2">
+            {saveMessage && (
+              <span className="text-xs font-mono text-emerald-400">{saveMessage}</span>
+            )}
+            <button
+              onClick={handleSaveToDb}
+              disabled={score <= 0 || savingScore}
+              className="px-4 py-1.5 bg-cyan-600/20 hover:bg-cyan-600/40 disabled:opacity-40 border border-cyan-400/40 text-cyan-200 text-xs font-heading font-bold tracking-wider uppercase rounded-xl transition-all flex items-center gap-1.5 cursor-pointer disabled:cursor-not-allowed"
+            >
+              {saveMessage?.startsWith('✅') ? (
+                <Check className="w-3.5 h-3.5 text-emerald-400" />
+              ) : (
+                <Save className="w-3.5 h-3.5" />
+              )}
+              <span>
+                {savingScore
+                  ? 'Хадгалж байна...'
+                  : currentUser
+                  ? 'Оноог DB-д хадгалах'
+                  : 'Google-ээр нэвтэрч хадгалах'}
+              </span>
+            </button>
           </div>
-          <button
-            onClick={resetGame}
-            title="Тоглоом шинэчлэх"
-            className="ml-2 p-2 text-slate-400 hover:text-white transition-colors rounded-lg hover:bg-white/10 cursor-pointer"
-          >
-            <RotateCcw className="w-4 h-4" />
-          </button>
         </div>
       </div>
 

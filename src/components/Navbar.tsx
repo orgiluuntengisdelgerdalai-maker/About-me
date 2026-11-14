@@ -1,18 +1,19 @@
 import React from 'react';
-import { ExternalLink, Sparkles } from 'lucide-react';
+import { ExternalLink, Gamepad2 } from 'lucide-react';
 
 interface NavbarProps {
+  isGamesActive?: boolean;
   onNavClick: (id: string) => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onNavClick }) => {
+export const Navbar: React.FC<NavbarProps> = ({ isGamesActive = false, onNavClick }) => {
   return (
     <header className="sticky top-0 z-50 backdrop-blur-xl bg-black/80 border-b border-white/10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 h-18 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 h-18 flex items-center justify-between gap-3">
         {/* Brand: Dual-orb logo matching user reference image */}
         <div
           onClick={() => onNavClick('hero')}
-          className="flex items-center gap-3 cursor-pointer group"
+          className="flex items-center gap-3 cursor-pointer group shrink-0"
         >
           {/* Dual overlapping gradient orbs like in the reference image */}
           <div className="relative w-7 h-5 flex items-center">
@@ -31,18 +32,25 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavClick }) => {
         </div>
 
         {/* Navigation Links with reference style typography */}
-        <nav className="hidden lg:flex items-center gap-8 text-[11px] font-heading font-medium tracking-widest text-slate-400 uppercase">
+        <nav className="hidden lg:flex items-center gap-6 text-[11px] font-heading font-medium tracking-widest text-slate-400 uppercase">
           <button
             onClick={() => onNavClick('hero')}
-            className="hover:text-white transition-colors cursor-pointer"
+            className={`transition-colors cursor-pointer ${
+              !isGamesActive ? 'text-white' : 'hover:text-white'
+            }`}
           >
             Нүүр
           </button>
           <button
-            onClick={() => onNavClick('basketball')}
-            className="hover:text-amber-400 transition-colors cursor-pointer"
+            onClick={() => onNavClick('games')}
+            className={`px-3 py-1.5 rounded-lg border transition-all flex items-center gap-1.5 cursor-pointer ${
+              isGamesActive
+                ? 'bg-purple-500/20 border-purple-400 text-purple-200 shadow-[0_0_15px_rgba(168,85,247,0.3)]'
+                : 'bg-white/5 border-white/10 text-purple-300 hover:bg-purple-500/15 hover:border-purple-400/60 hover:text-white'
+            }`}
           >
-            Сагсан бөмбөг
+            <Gamepad2 className="w-3.5 h-3.5" />
+            <span>Тоглоом</span>
           </button>
           <button
             onClick={() => onNavClick('minecraft-food')}
@@ -70,13 +78,26 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavClick }) => {
           </button>
         </nav>
 
-        {/* Right CTA Links (Original User Projects) */}
-        <div className="flex items-center gap-2.5">
+        {/* Right CTA Links */}
+        <div className="flex items-center gap-2">
+          {/* Mobile Games Button */}
+          <button
+            onClick={() => onNavClick('games')}
+            className={`lg:hidden px-3 py-1.5 rounded-lg border text-[11px] font-heading tracking-wider font-semibold transition-all flex items-center gap-1.5 cursor-pointer ${
+              isGamesActive
+                ? 'bg-purple-600 text-white border-purple-400'
+                : 'bg-purple-950/40 text-purple-300 border-purple-500/30 hover:bg-purple-900/60'
+            }`}
+          >
+            <Gamepad2 className="w-3.5 h-3.5" />
+            <span>ТОГЛООМ</span>
+          </button>
+
           <a
             href="https://vocal-truffle-8c33e5.netlify.app"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-3.5 py-1.5 bg-red-950/40 hover:bg-red-900/60 text-red-300 border border-red-500/30 text-[11px] font-heading tracking-wider font-semibold rounded-lg transition-all flex items-center gap-1.5"
+            className="hidden sm:flex px-3.5 py-1.5 bg-red-950/40 hover:bg-red-900/60 text-red-300 border border-red-500/30 text-[11px] font-heading tracking-wider font-semibold rounded-lg transition-all items-center gap-1.5"
             title="Uutube вэбсайт руу зочлох"
           >
             <span>UUTUBE</span>
@@ -87,7 +108,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavClick }) => {
             href="https://lustrous-malasada-f15aaf.netlify.app"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-3.5 py-1.5 bg-blue-950/40 hover:bg-blue-900/60 text-cyan-300 border border-cyan-500/30 text-[11px] font-heading tracking-wider font-semibold rounded-lg transition-all flex items-center gap-1.5"
+            className="hidden md:flex px-3.5 py-1.5 bg-blue-950/40 hover:bg-blue-900/60 text-cyan-300 border border-cyan-500/30 text-[11px] font-heading tracking-wider font-semibold rounded-lg transition-all items-center gap-1.5"
             title="My Dream вэбсайт руу зочлох"
           >
             <span>MY DREAM</span>
@@ -98,7 +119,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavClick }) => {
             href="https://adorable-lokum-0ba4ae.netlify.app"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-3.5 py-1.5 bg-amber-950/40 hover:bg-amber-900/60 text-amber-300 border border-amber-500/30 text-[11px] font-heading tracking-wider font-semibold rounded-lg transition-all flex items-center gap-1.5"
+            className="hidden sm:flex px-3.5 py-1.5 bg-amber-950/40 hover:bg-amber-900/60 text-amber-300 border border-amber-500/30 text-[11px] font-heading tracking-wider font-semibold rounded-lg transition-all items-center gap-1.5"
             title="Тооцоолуур вэбсайт руу зочлох"
           >
             <span>ТООЦООЛУУР</span>

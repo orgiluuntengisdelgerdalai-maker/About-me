@@ -1,0 +1,94 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 1. Global default-deny safety net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // 2. Hardened global helper primitives
+    function isValidId(id) {
+      return id is string && id.size() >= 1 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isVerifiedUser() {
+      return isSignedIn() && request.auth.token.email_verified == true;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    // 3. Entity Validation Blueprints
+    function isValidUserProfile(data) {
+      return data.keys().hasAll(['uid', 'displayName', 'createdAt', 'updatedAt'])
+        && data.keys().hasOnly(['uid', 'displayName', 'photoURL', 'createdAt', 'updatedAt'])
+        && data.uid is string && data.uid == request.auth.uid && isValidId(data.uid)
+        && data.displayName is string && data.displayName.size() >= 1 && data.displayName.size() <= 60
+        && (!data.keys().hasAny(['photoURL']) || (data.photoURL is string && data.photoURL.size() <= 500))
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidGameScore(data) {
+      return data.keys().hasAll(['userId', 'playerName', 'gameId', 'difficulty', 'score', 'streak', 'timeLeftSeconds', 'won', 'createdAt'])
+        && data.keys().hasOnly(['userId', 'playerName', 'gameId', 'difficulty', 'score', 'streak', 'timeLeftSeconds', 'won', 'createdAt'])
+        && data.userId is string && data.userId == request.auth.uid && isValidId(data.userId)
+        && data.playerName is string && data.playerName.size() >= 1 && data.playerName.size() <= 60
+        && data.gameId is string && data.gameId.size() <= 32 && data.gameId in ['basketball', 'anime-quiz']
+        && data.difficulty is string && data.difficulty.size() <= 20 && data.difficulty in ['standard', 'easy', 'medium', 'hard', 'god']
+        && data.score is number && data.score >= 0 && data.score <= 10000
+        && data.streak is number && data.streak >= 0 && data.streak <= 1000
+        && data.timeLeftSeconds is number && data.timeLeftSeconds >= 0 && data.timeLeftSeconds <= 3600
+        && data.won is bool
+        && data.createdAt is timestamp;
+    }
+
+    // 4. Collection Rules: /users/{userId}
+    match /users/{userId} {
+      allow get: if isValidId(userId) && isOwner(userId);
+      allow create: if isValidId(userId)
+        && isVerifiedUser()
+        && isOwner(userId)
+        && isValidUserProfile(incoming())
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time;
+      allow update: if isValidId(userId)
+        && isVerifiedUser()
+        && isOwner(userId)
+        && isValidUserProfile(incoming())
+        && incoming().uid == existing().uid
+        && incoming().createdAt == existing().createdAt
+        && incoming().updatedAt == request.time
+        && incoming().diff(existing()).affectedKeys().hasOnly(['displayName', 'photoURL', 'updatedAt']);
+      allow delete: if isValidId(userId) && isVerifiedUser() && isOwner(userId);
+    }
+
+    // 5. Collection Rules: /game_scores/{scoreId}
+    // Public non-PII leaderboard reads bounded by gameId validation; authenticated verified writes only for own scores
+    match /game_scores/{scoreId} {
+      allow get: if isValidId(scoreId) && existing().gameId in ['basketball', 'anime-quiz'];
+      allow list: if existing().gameId in ['basketball', 'anime-quiz'];
+      allow create: if isValidId(scoreId)
+        && isVerifiedUser()
+        && isValidGameScore(incoming())
+        && incoming().createdAt == request.time;
+      allow update: if false;
+      allow delete: if isValidId(scoreId)
+        && isVerifiedUser()
+        && existing().userId == request.auth.uid;
+    }
+  }
+}
