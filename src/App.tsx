@@ -7,7 +7,16 @@ import { ProjectsSection } from './components/ProjectsSection';
 import { Guestbook } from './components/Guestbook';
 import { GamesHub, GameId, GAMES_LIST } from './components/GamesHub';
 import { AnimatedGalaxyCanvas } from './components/AnimatedGalaxyCanvas';
-import { Sparkles, ArrowUpRight, Compass, Gamepad2, ArrowRight } from 'lucide-react';
+import {
+  Sparkles,
+  ArrowUpRight,
+  Compass,
+  Gamepad2,
+  ArrowRight,
+  Home,
+  Rocket,
+  MessageSquare,
+} from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { auth, syncUserProfile } from './firebase';
@@ -21,6 +30,9 @@ function parseHashRoute(): { view: ActiveView; game: GameId | null } {
   }
   if (hash === '#games/anime-quiz') {
     return { view: 'games', game: 'anime-quiz' };
+  }
+  if (hash === '#games/vibe-fighter') {
+    return { view: 'games', game: 'vibe-fighter' };
   }
   if (hash === '#games') {
     return { view: 'games', game: null };
@@ -88,6 +100,10 @@ export default function App() {
       openGamesWindow('anime-quiz');
       return;
     }
+    if (id === 'vibe-fighter') {
+      openGamesWindow('vibe-fighter');
+      return;
+    }
 
     if (activeView !== 'home') {
       setActiveView('home');
@@ -138,7 +154,7 @@ export default function App() {
       <Navbar isGamesActive={activeView === 'games'} onNavClick={scrollToSection} />
 
       {/* Main Container */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 relative z-10">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 pb-20 lg:pb-8 relative z-10">
         {activeView === 'games' ? (
           <GamesHub
             activeGame={activeGame}
@@ -149,58 +165,58 @@ export default function App() {
         ) : (
           <>
             {/* HERO SECTION: Cosmic Galaxy Nebula UI */}
-            <section id="hero" className="scroll-mt-24">
+            <section id="hero" className="scroll-mt-20">
               <CosmicHero onNavigateSection={scrollToSection} />
             </section>
 
             {/* Quick Tech Specs / HUD Banner */}
-            <div className="my-8 p-4 sm:p-5 rounded-2xl bg-black/80 border border-white/10 cosmic-grid flex flex-wrap items-center justify-between gap-4 backdrop-blur-md">
+            <div className="my-6 sm:my-8 p-4 sm:p-5 rounded-2xl bg-black/80 border border-white/10 cosmic-grid flex flex-col lg:flex-row lg:items-center justify-between gap-4 backdrop-blur-md">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
+                <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 shrink-0">
                   <Compass className="w-5 h-5 animate-spin" style={{ animationDuration: '20s' }} />
                 </div>
-                <div>
+                <div className="min-w-0">
                   <span className="text-[10px] font-mono text-slate-400 uppercase tracking-widest block">
                     ОРГИЛУУНТЭНГИСИЙН СТАТУС
                   </span>
-                  <span className="text-sm font-heading font-bold text-white tracking-wide">
-                    12 Настай · Сагсан бөмбөг & Minecraft · Ирээдүйн Код Инженер
+                  <span className="text-xs sm:text-sm font-heading font-bold text-white tracking-wide block">
+                    12 Настай · Сагсан бөмбөг & Minecraft · Код Инженер
                   </span>
                 </div>
               </div>
 
-              <div className="flex flex-wrap items-center gap-3">
+              <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2.5 sm:gap-3">
                 <button
                   onClick={() => openGamesWindow(null)}
-                  className="px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-xs font-heading font-bold tracking-wider uppercase text-white rounded-xl transition-all flex items-center gap-2 cursor-pointer shadow-lg"
+                  className="min-h-[44px] px-3 sm:px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-xs font-heading font-bold tracking-wider uppercase text-white rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-lg"
                 >
-                  <Gamepad2 className="w-4 h-4" />
-                  <span>Тоглоом цонх нээх</span>
+                  <Gamepad2 className="w-4 h-4 shrink-0" />
+                  <span className="truncate">Тоглоом цонх</span>
                 </button>
                 <button
                   onClick={handleCelebrate}
-                  className="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-heading tracking-wider uppercase text-cyan-300 rounded-xl transition-all flex items-center gap-2 cursor-pointer"
+                  className="min-h-[44px] px-3 sm:px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-heading tracking-wider uppercase text-cyan-300 rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer"
                 >
-                  <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
-                  <span>Баяр хүргэх!</span>
+                  <Sparkles className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+                  <span className="truncate">Баяр хүргэх!</span>
                 </button>
                 <a
                   href="https://vocal-truffle-8c33e5.netlify.app"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-4 py-2 bg-red-600/80 hover:bg-red-500 text-xs font-heading tracking-wider uppercase text-white rounded-xl transition-all flex items-center gap-1.5 cursor-pointer shadow-lg"
+                  className="min-h-[44px] px-3 sm:px-4 py-2 bg-red-600/80 hover:bg-red-500 text-xs font-heading tracking-wider uppercase text-white rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-lg"
                 >
                   <span>Uutube</span>
-                  <ArrowUpRight className="w-3.5 h-3.5" />
+                  <ArrowUpRight className="w-3.5 h-3.5 shrink-0" />
                 </a>
                 <a
                   href="https://adorable-lokum-0ba4ae.netlify.app"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-4 py-2 bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-xs font-heading tracking-wider uppercase text-white rounded-xl transition-all flex items-center gap-1.5 cursor-pointer shadow-lg"
+                  className="min-h-[44px] px-3 sm:px-4 py-2 bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-xs font-heading tracking-wider uppercase text-white rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-lg"
                 >
                   <span>Тооцоолуур</span>
-                  <ArrowUpRight className="w-3.5 h-3.5" />
+                  <ArrowUpRight className="w-3.5 h-3.5 shrink-0" />
                 </a>
               </div>
             </div>
@@ -237,8 +253,9 @@ export default function App() {
                     </h2>
                     <p className="text-slate-300 text-sm leading-relaxed font-light">
                       Энд дарж тусдаа <span className="text-white font-medium">«Тоглоом»</span> цонх руу орно уу!
-                      Дотор нь <span className="text-amber-300">🏀 Сагсан бөмбөг</span> болон{' '}
-                      <span className="text-purple-300">🍥 Ultimate Anime Quiz</span> тоглоомууд бий — тоглоом
+                      Дотор нь <span className="text-amber-300">🏀 Сагсан бөмбөг</span>,{' '}
+                      <span className="text-purple-300">🍥 Ultimate Anime Quiz</span> болон{' '}
+                      <span className="text-rose-300">🥊 Vibe Fighter</span> тоглоомууд бий — тоглоом
                       бүр дээр дараад өөрийнх нь цонх руу орж тоглоно.
                     </p>
                   </div>
@@ -288,27 +305,26 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-white/10 bg-black/90 cosmic-grid py-10 px-4 text-xs text-slate-400 relative z-10">
+      <footer className="border-t border-white/10 bg-black/90 cosmic-grid py-8 pb-24 lg:py-10 px-4 text-xs text-slate-400 relative z-10">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-3">
-            {/* Dual mini pills */}
-            <div className="relative w-5 h-4 flex items-center">
+          <div className="flex flex-wrap items-center justify-center md:justify-start gap-2.5 text-center md:text-left">
+            <div className="relative w-5 h-4 flex items-center shrink-0">
               <div className="w-3 h-3 rounded-full bg-cyan-400 opacity-90 shadow-[0_0_8px_#38bdf8]"></div>
               <div className="w-3 h-3 rounded-full bg-blue-600 -ml-1 opacity-90 shadow-[0_0_8px_#2563eb]"></div>
             </div>
             <span className="font-heading font-bold text-white tracking-widest uppercase">
               ОРГИЛУУНТЭНГИС
             </span>
-            <span className="text-slate-600">|</span>
+            <span className="text-slate-600 hidden sm:inline">|</span>
             <span className="font-mono text-[11px] text-slate-400">
               12 НАСТАЙ · ИРЭЭДҮЙН ПРОГРАММ ХАНГАМЖИЙН ИНЖЕНЕР
             </span>
           </div>
 
-          <div className="flex items-center gap-6 font-heading tracking-widest uppercase text-[11px] text-slate-400">
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 font-heading tracking-widest uppercase text-[11px] text-slate-400">
             <button
               onClick={() => openGamesWindow(null)}
-              className="hover:text-purple-400 transition-colors cursor-pointer"
+              className="hover:text-purple-400 transition-colors cursor-pointer py-1"
             >
               Тоглоом
             </button>
@@ -317,7 +333,7 @@ export default function App() {
               href="https://vocal-truffle-8c33e5.netlify.app"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-red-400 transition-colors"
+              className="hover:text-red-400 transition-colors py-1"
             >
               Uutube
             </a>
@@ -326,7 +342,7 @@ export default function App() {
               href="https://lustrous-malasada-f15aaf.netlify.app"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-cyan-400 transition-colors"
+              className="hover:text-cyan-400 transition-colors py-1"
             >
               My Dream
             </a>
@@ -335,16 +351,25 @@ export default function App() {
               href="https://adorable-lokum-0ba4ae.netlify.app"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-amber-400 transition-colors"
+              className="hover:text-amber-400 transition-colors py-1"
             >
               Тооцоолуур
             </a>
             <span className="text-slate-700">·</span>
+            <a
+              href="https://supere-strete-fightere.vercel.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-rose-400 transition-colors py-1"
+            >
+              Vibe Fighter
+            </a>
+            <span className="text-slate-700">·</span>
             <button
               onClick={() => scrollToSection('hero')}
-              className="hover:text-white transition-colors cursor-pointer"
+              className="hover:text-white transition-colors cursor-pointer py-1"
             >
-              Дээшээ буцах ↑
+              Дээшээ ↑
             </button>
           </div>
         </div>
@@ -352,6 +377,54 @@ export default function App() {
           "Код бичих нь зүгээр л тоглоом биш — орчлон ертөнцийг өөрийн гараар бүтээх шидэт урлаг юм." 🇲🇳 🚀
         </p>
       </footer>
+
+      {/* Mobile Fixed Thumb Navigation Bar */}
+      <nav
+        aria-label="Утасны үндсэн цэс"
+        className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-black/92 backdrop-blur-xl border-t border-white/10 pb-safe"
+      >
+        <div className="grid grid-cols-4 h-14 items-center">
+          <button
+            type="button"
+            onClick={() => scrollToSection('hero')}
+            className={`min-h-[44px] flex flex-col items-center justify-center gap-0.5 text-[10px] font-heading tracking-wider transition-colors cursor-pointer ${
+              activeView === 'home' ? 'text-cyan-400' : 'text-slate-400 hover:text-white'
+            }`}
+          >
+            <Home className="w-4 h-4" />
+            <span>Нүүр</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => openGamesWindow(null)}
+            className={`min-h-[44px] flex flex-col items-center justify-center gap-0.5 text-[10px] font-heading tracking-wider transition-colors cursor-pointer ${
+              activeView === 'games' ? 'text-purple-400' : 'text-slate-400 hover:text-white'
+            }`}
+          >
+            <Gamepad2 className="w-4 h-4" />
+            <span>Тоглоом</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => scrollToSection('projects-section')}
+            className="min-h-[44px] flex flex-col items-center justify-center gap-0.5 text-[10px] font-heading tracking-wider text-slate-400 hover:text-rose-400 transition-colors cursor-pointer"
+          >
+            <Rocket className="w-4 h-4" />
+            <span>Төслүүд</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => scrollToSection('guestbook-section')}
+            className="min-h-[44px] flex flex-col items-center justify-center gap-0.5 text-[10px] font-heading tracking-wider text-slate-400 hover:text-pink-400 transition-colors cursor-pointer"
+          >
+            <MessageSquare className="w-4 h-4" />
+            <span>Дэвтэр</span>
+          </button>
+        </div>
+      </nav>
     </div>
   );
 }

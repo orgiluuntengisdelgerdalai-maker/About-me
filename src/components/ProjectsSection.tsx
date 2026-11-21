@@ -1,5 +1,5 @@
 import React from 'react';
-import { ExternalLink, PlaySquare, Compass, Rocket, Sparkles, FolderGit2, ArrowRight } from 'lucide-react';
+import { ExternalLink, PlaySquare, Compass, Rocket, Sparkles, Swords } from 'lucide-react';
 
 export const ProjectsSection: React.FC = () => {
   const projects = [
@@ -40,17 +40,16 @@ export const ProjectsSection: React.FC = () => {
       btnColor: 'bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400',
     },
     {
-      id: 'minecraft-project',
-      title: 'Minecraft Redstone Цайз',
-      subtitle: 'Автомат ферм ба хамгаалалтын систем',
+      id: 'vibe-fighter-project',
+      title: 'Vibe Fighter 🥊',
+      subtitle: 'Миний бүтээсэн тулааны тоглоом',
       description:
-        'Minecraft тоглоом дотор бүтээсэн 100% автомат ургац хураагч болон дайснуудаас хамгаалах Redstone логик цайз.',
-      url: '#minecraft-food',
-      tag: '04-D / ТОГЛООМЫН СИСТЕМ',
-      icon: Sparkles,
-      color: 'border-emerald-500/30 text-emerald-400 bg-emerald-950/20',
-      btnColor: 'bg-emerald-600 hover:bg-emerald-500',
-      isInternal: true,
+        'Супер гудамжны тулааны аркад тоглоом — өрсөлдөгчөө ялж аварга болоорой! Vercel дээр амжилттай байршсан.',
+      url: 'https://supere-strete-fightere.vercel.app/',
+      tag: '04-D / ТОГЛООМ ТӨСӨЛ',
+      icon: Swords,
+      color: 'border-rose-500/30 text-rose-400 bg-rose-950/20',
+      btnColor: 'bg-gradient-to-r from-rose-600 to-orange-600 hover:from-rose-500 hover:to-orange-500',
     },
   ];
 
@@ -69,65 +68,81 @@ export const ProjectsSection: React.FC = () => {
             Хийж Бүтээсэн Вэбүүд 🚀
           </h2>
           <p className="text-slate-300 text-sm mt-1 max-w-xl font-light leading-relaxed">
-            Би өөрийн сурсан мэдлэгээрээ эдгээр вэб хуудсуудыг кодлож интернетэд нийтэлсэн байгаа.
+            Би өөрийн сурсан мэдлэгээрээ эдгээр вэб хуудсууд болон тоглоомуудыг кодлож интернетэд нийтэлсэн байгаа.
             Дарж шууд орж үзээрэй!
           </p>
         </div>
 
         <span className="text-xs font-mono text-slate-400 tracking-wider">
-          НИЙТ: 3 ШУУД ЛИНК + БҮТЭЭЛҮҮД
+          НИЙТ: 4 ШУУД ЛИНК + БҮТЭЭЛҮҮД
         </span>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         {projects.map((proj) => {
           const Icon = proj.icon;
           return (
             <div
               key={proj.id}
-              className={`bg-black/90 border cosmic-grid rounded-3xl p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_35px_rgba(255,255,255,0.1)] ${proj.color}`}
+              className={`bg-black/90 border cosmic-grid rounded-3xl p-5 sm:p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_35px_rgba(255,255,255,0.1)] ${proj.color}`}
             >
               <div>
-                <div className="flex items-center justify-between mb-4">
-                  <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center">
-                    <Icon className="w-6 h-6" />
+                <div className="flex items-center justify-between gap-2 mb-4">
+                  <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
+                    <Icon className="w-5 h-5 sm:w-6 sm:h-6" />
                   </div>
-                  <span className="text-[10px] font-mono px-3 py-1 rounded-md bg-black/80 border border-white/10 text-slate-300 uppercase tracking-wider">
+                  <span className="text-[10px] font-mono px-2.5 py-1 rounded-md bg-black/80 border border-white/10 text-slate-300 uppercase tracking-wider truncate">
                     {proj.tag}
                   </span>
                 </div>
 
-                <h3 className="text-xl font-heading font-bold text-white mb-1">{proj.title}</h3>
+                <h3 className="text-lg sm:text-xl font-heading font-bold text-white mb-1">{proj.title}</h3>
                 <p className="text-xs font-medium text-slate-400 mb-3">{proj.subtitle}</p>
-                <p className="text-slate-300 text-sm leading-relaxed mb-6 font-light">
+                <p className="text-slate-300 text-sm leading-relaxed mb-5 sm:mb-6 font-light">
                   {proj.description}
                 </p>
               </div>
 
               <div>
-                {proj.isInternal ? (
-                  <a
-                    href={proj.url}
-                    className={`w-full py-3 px-4 ${proj.btnColor} text-white font-heading font-bold text-xs tracking-wider uppercase rounded-xl shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer`}
-                  >
-                    <span>Дэлгэрэнгүй үзэх</span>
-                    <Sparkles className="w-3.5 h-3.5" />
-                  </a>
-                ) : (
-                  <a
-                    href={proj.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`w-full py-3 px-4 ${proj.btnColor} text-white font-heading font-bold text-xs tracking-wider uppercase rounded-xl shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer group`}
-                  >
-                    <span>Вэбсайт руу зочлох</span>
-                    <ExternalLink className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                  </a>
-                )}
+                <a
+                  href={proj.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`min-h-[44px] w-full py-3 px-4 ${proj.btnColor} text-white font-heading font-bold text-xs tracking-wider uppercase rounded-xl shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer group`}
+                >
+                  <span>Вэбсайт руу зочлох</span>
+                  <ExternalLink className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </a>
               </div>
             </div>
           );
         })}
+      </div>
+
+      {/* Additional Highlight: Minecraft Redstone System */}
+      <div className="mt-5 bg-black/90 border border-emerald-500/30 text-emerald-400 cosmic-grid rounded-3xl p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="flex items-start sm:items-center gap-4">
+          <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-emerald-950/30 border border-emerald-500/30 flex items-center justify-center shrink-0">
+            <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-400" />
+          </div>
+          <div>
+            <span className="text-[10px] font-mono text-emerald-400 uppercase tracking-widest block">
+              04-E / ТОГЛООМЫН СИСТЕМ
+            </span>
+            <h3 className="text-lg font-heading font-bold text-white">Minecraft Redstone Цайз</h3>
+            <p className="text-slate-300 text-xs sm:text-sm font-light mt-0.5">
+              100% автомат ургац хураагч болон дайснуудаас хамгаалах Redstone логик цайз.
+            </p>
+          </div>
+        </div>
+
+        <a
+          href="#minecraft-food"
+          className="min-h-[44px] w-full sm:w-auto px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-heading font-bold text-xs tracking-wider uppercase rounded-xl shadow-md transition-all flex items-center justify-center gap-2 shrink-0"
+        >
+          <span>Дэлгэрэнгүй үзэх</span>
+          <Sparkles className="w-3.5 h-3.5" />
+        </a>
       </div>
     </div>
   );

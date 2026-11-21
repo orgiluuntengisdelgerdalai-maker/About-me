@@ -191,36 +191,36 @@ export const Guestbook: React.FC = () => {
         </div>
 
         {/* Big Cheer Button */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5 sm:gap-3 w-full md:w-auto">
           <button
             onClick={fetchGuestbook}
             title="Шинэ сэтгэгдлүүдийг татах"
-            className="p-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl text-slate-300 hover:text-white transition-colors cursor-pointer"
+            aria-label="Сэтгэгдэл шинэчлэх"
+            className="min-w-[44px] min-h-[44px] p-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl text-slate-300 hover:text-white transition-colors cursor-pointer flex items-center justify-center shrink-0"
           >
             <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-cyan-400' : ''}`} />
           </button>
 
           <button
             onClick={handleGiveCheer}
-            className="px-6 py-3.5 bg-gradient-to-r from-cyan-600 via-blue-600 to-indigo-600 hover:from-cyan-500 hover:to-indigo-500 active:scale-95 text-white font-heading font-bold text-xs tracking-wider uppercase rounded-2xl shadow-[0_0_25px_rgba(6,182,212,0.3)] transition-all flex items-center gap-2.5 cursor-pointer"
+            className="min-h-[44px] flex-1 md:flex-initial px-4 sm:px-6 py-3 bg-gradient-to-r from-cyan-600 via-blue-600 to-indigo-600 hover:from-cyan-500 hover:to-indigo-500 active:scale-95 text-white font-heading font-bold text-xs tracking-wider uppercase rounded-2xl shadow-[0_0_25px_rgba(6,182,212,0.3)] transition-all flex items-center justify-center gap-2 cursor-pointer"
           >
-            <Flame className="w-5 h-5 text-cyan-200 fill-current animate-pulse" />
-            <span>Урам өгөх! ({cheerCount} гал асаалаа)</span>
+            <Flame className="w-4 h-4 sm:w-5 sm:h-5 text-cyan-200 fill-current shrink-0" />
+            <span className="truncate">Урам өгөх! ({cheerCount})</span>
           </button>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6">
         {/* Form to leave a message */}
-        <div className="lg:col-span-5 bg-black/90 border border-white/10 cosmic-grid rounded-3xl p-6 shadow-2xl flex flex-col justify-between">
+        <div className="lg:col-span-5 bg-black/90 border border-white/10 cosmic-grid rounded-3xl p-4 sm:p-6 shadow-2xl flex flex-col justify-between">
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-wrap items-center justify-between gap-2">
               <h3 className="text-base font-heading font-bold text-white flex items-center gap-2">
                 <Sparkles className="w-4 h-4 text-cyan-400" />
                 <span>Сэтгэгдэл бичих</span>
               </h3>
-              <span className="text-[10px] font-mono text-emerald-400 flex items-center gap-1 bg-emerald-950/40 border border-emerald-500/20 px-2.5 py-0.5 rounded-full">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span className="text-[11px] font-mono text-emerald-400">
                 Нийтэд нээлттэй шууд харагдана
               </span>
             </div>
@@ -235,7 +235,7 @@ export const Guestbook: React.FC = () => {
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Жишээ: Анударь эгч, Бат найз, Зочин..."
                 required
-                className="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-sm focus:outline-none focus:border-cyan-400 transition-colors"
+                className="w-full min-h-[44px] px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-base sm:text-sm focus:outline-none focus:border-cyan-400 transition-colors"
               />
             </div>
 
@@ -243,14 +243,14 @@ export const Guestbook: React.FC = () => {
               <label className="block text-xs font-mono text-slate-400 mb-1 tracking-wider uppercase">
                 Сонгох сэдэв:
               </label>
-              <div className="flex flex-wrap gap-1.5">
+              <div className="flex flex-wrap gap-2">
                 {['🚀 Ирээдүйн Инженер', '🏀 Сагсан бөмбөг', '🥟 Хуушуур', '⛏️ Minecraft'].map(
                   (badge) => (
                     <button
                       type="button"
                       key={badge}
                       onClick={() => setSelectedBadge(badge)}
-                      className={`text-xs px-3 py-1.5 rounded-lg border transition-all cursor-pointer ${
+                      className={`min-h-[40px] text-xs px-3 py-1.5 rounded-lg border transition-all cursor-pointer ${
                         selectedBadge === badge
                           ? 'bg-cyan-500/20 border-cyan-400 text-cyan-300 font-medium'
                           : 'bg-white/5 border-white/10 text-slate-400 hover:text-white hover:bg-white/10'
@@ -273,14 +273,14 @@ export const Guestbook: React.FC = () => {
                 rows={3}
                 placeholder="Оргилуунтэнгист хандаж сайхан үг, сэтгэгдлээ бичээрэй..."
                 required
-                className="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-sm focus:outline-none focus:border-cyan-400 transition-colors resize-none"
+                className="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-base sm:text-sm focus:outline-none focus:border-cyan-400 transition-colors resize-none"
               />
             </div>
 
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full py-3 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 active:scale-98 disabled:opacity-50 text-white font-heading font-bold text-xs tracking-wider uppercase rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer"
+              className="w-full min-h-[48px] py-3 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 active:scale-98 disabled:opacity-50 text-white font-heading font-bold text-xs tracking-wider uppercase rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
               <Send className="w-4 h-4" />
               <span>{isSubmitting ? 'Илгээж байна...' : 'Нийтэд нийтлэх'}</span>
@@ -294,22 +294,24 @@ export const Guestbook: React.FC = () => {
             </span>
             <div className="flex flex-wrap items-center gap-2">
               <button
+                type="button"
                 onClick={() => {
                   setName('Зочин');
                   setMessage('🔥 12 настай гэхэд үнэхээр мундаг байна! Амжилт хүсье!');
                   setSelectedBadge('🚀 Ирээдүйн Инженер');
                 }}
-                className="px-3 py-1.5 bg-white/5 border border-white/10 hover:border-white/20 text-slate-300 text-xs rounded-xl transition-colors cursor-pointer"
+                className="min-h-[40px] px-3 py-1.5 bg-white/5 border border-white/10 hover:border-white/20 text-slate-300 text-xs rounded-xl transition-colors cursor-pointer"
               >
                 🔥 Шилдэг нь!
               </button>
               <button
+                type="button"
                 onClick={() => {
                   setName('Сагсны хорхойтон');
                   setMessage('🏀 Сагсаа ч сайн тоглоод, кодоо ч сайн бичээрэй!');
                   setSelectedBadge('🏀 Сагсан бөмбөг');
                 }}
-                className="px-3 py-1.5 bg-white/5 border border-white/10 hover:border-white/20 text-slate-300 text-xs rounded-xl transition-colors cursor-pointer"
+                className="min-h-[40px] px-3 py-1.5 bg-white/5 border border-white/10 hover:border-white/20 text-slate-300 text-xs rounded-xl transition-colors cursor-pointer"
               >
                 🏀 Сагсаа амжилттай тоглоорой!
               </button>
@@ -319,10 +321,10 @@ export const Guestbook: React.FC = () => {
 
         {/* Live Visitor Comments Message Feed */}
         <div className="lg:col-span-7 flex flex-col justify-between">
-          <div className="flex items-center justify-between mb-3 px-1">
+          <div className="flex flex-wrap items-center justify-between gap-2 mb-3 px-1">
             <span className="text-xs font-mono uppercase tracking-widest text-slate-400 flex items-center gap-2">
               <Users className="w-3.5 h-3.5 text-cyan-400" />
-              <span>ЗОЧДЫН БОДИТ СЭТГЭГДЛҮҮД ({messages.length})</span>
+              <span>ЗОЧДЫН СЭТГЭГДЛҮҮД ({messages.length})</span>
             </span>
             <span className="text-[11px] font-mono text-cyan-400/90 flex items-center gap-1.5">
               <Globe2 className="w-3 h-3 animate-spin" style={{ animationDuration: '10s' }} />
@@ -330,7 +332,7 @@ export const Guestbook: React.FC = () => {
             </span>
           </div>
 
-          <div className="space-y-3.5 max-h-[500px] overflow-y-auto pr-1">
+          <div className="space-y-3 max-h-[500px] overflow-y-auto pr-1">
             {messages.length === 0 ? (
               <div className="p-8 text-center text-slate-400 border border-dashed border-white/10 rounded-2xl">
                 Одоогоор сэтгэгдэл ороогүй байна. Та анхны сэтгэгдлийг үлдээгээрэй!
@@ -339,15 +341,15 @@ export const Guestbook: React.FC = () => {
               messages.map((msg) => (
                 <div
                   key={msg.id}
-                  className="bg-black/90 border border-white/10 rounded-2xl p-4.5 hover:border-white/20 transition-colors shadow-lg"
+                  className="bg-black/90 border border-white/10 rounded-2xl p-4 hover:border-white/20 transition-colors shadow-lg"
                 >
-                  <div className="flex items-center justify-between gap-2 mb-2">
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center text-white font-heading font-bold text-xs shadow-md">
+                  <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center text-white font-heading font-bold text-xs shadow-md shrink-0">
                         {msg.name.slice(0, 1)}
                       </div>
-                      <div>
-                        <span className="text-sm font-heading font-bold text-white block leading-tight">
+                      <div className="min-w-0">
+                        <span className="text-sm font-heading font-bold text-white block leading-tight truncate">
                           {msg.name}
                         </span>
                         <span className="text-[11px] text-slate-400 font-mono">{msg.timestamp}</span>
@@ -355,23 +357,23 @@ export const Guestbook: React.FC = () => {
                     </div>
 
                     {msg.badge && (
-                      <span className="text-[10px] font-mono px-2.5 py-1 rounded-md bg-white/5 text-slate-300 border border-white/10 uppercase tracking-wider">
+                      <span className="text-[10px] font-mono text-slate-300 uppercase tracking-wider">
                         {msg.badge}
                       </span>
                     )}
                   </div>
 
-                  <p className="text-slate-300 text-sm leading-relaxed mb-3 font-light">
+                  <p className="text-slate-300 text-sm leading-relaxed mb-2 font-light break-words">
                     {msg.message}
                   </p>
 
                   <div className="flex items-center justify-end">
                     <button
                       onClick={() => handleLikeMessage(msg.id)}
-                      className="flex items-center gap-1.5 text-xs text-slate-400 hover:text-cyan-400 transition-colors px-3 py-1 rounded-lg hover:bg-white/5 cursor-pointer"
+                      className="min-h-[40px] min-w-[44px] flex items-center justify-center gap-1.5 text-xs text-slate-400 hover:text-cyan-400 transition-colors px-3 py-1 rounded-lg hover:bg-white/5 cursor-pointer"
                     >
                       <Heart className="w-3.5 h-3.5 text-cyan-400" />
-                      <span>{msg.likes}</span>
+                      <span className="tabular-nums">{msg.likes}</span>
                     </button>
                   </div>
                 </div>

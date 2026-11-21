@@ -540,7 +540,7 @@ export const AnimeQuiz: React.FC<AnimeQuizProps> = ({ currentUser }) => {
   return (
     <div
       id="anime-quiz"
-      className="bg-black/90 border border-white/10 cosmic-grid rounded-3xl p-6 lg:p-8 text-white relative overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.8)]"
+      className="bg-black/90 border border-white/10 cosmic-grid rounded-3xl p-4 sm:p-6 lg:p-8 text-white relative overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.8)]"
     >
       {/* Ambient glow */}
       <div className="absolute -top-10 -right-10 w-64 h-64 bg-purple-600/15 rounded-full blur-3xl pointer-events-none"></div>
@@ -549,7 +549,7 @@ export const AnimeQuiz: React.FC<AnimeQuizProps> = ({ currentUser }) => {
       {/* Header */}
       <div className="relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
         <div>
-          <div className="flex items-center gap-2 text-purple-400 font-mono text-xs tracking-widest uppercase">
+          <div className="flex flex-wrap items-center gap-2 text-purple-400 font-mono text-xs tracking-widest uppercase">
             <Tv className="w-3.5 h-3.5" />
             <span>МИНИ ТОГЛООМ</span>
             <span>·</span>
@@ -567,23 +567,23 @@ export const AnimeQuiz: React.FC<AnimeQuizProps> = ({ currentUser }) => {
         </div>
 
         {phase === 'playing' && (
-          <div className="flex items-center gap-3 bg-white/5 border border-white/10 rounded-2xl px-4 py-2.5 backdrop-blur-md">
-            <div className="text-center pr-3 border-r border-white/10">
+          <div className="w-full md:w-auto flex items-center justify-between md:justify-start gap-3 bg-white/5 border border-white/10 rounded-2xl px-4 py-2.5 backdrop-blur-md">
+            <div className="text-center pr-3 border-r border-white/10 flex-1 md:flex-initial">
               <span className="text-[10px] font-mono text-slate-400 block uppercase">ТҮВШИН</span>
               <span className={`text-xs font-heading font-bold ${config.colorClass}`}>
                 {config.label}
               </span>
             </div>
-            <div className="text-center pr-3 border-r border-white/10">
+            <div className="text-center pr-3 border-r border-white/10 flex-1 md:flex-initial">
               <span className="text-[10px] font-mono text-slate-400 block uppercase">ОНОО</span>
-              <span className="text-lg font-heading font-bold text-white">
+              <span className="text-lg font-heading font-bold text-white tabular-nums">
                 {score}/{questions.length}
               </span>
             </div>
-            <div className="text-center min-w-[78px]">
+            <div className="text-center min-w-[78px] flex-1 md:flex-initial">
               <span className="text-[10px] font-mono text-slate-400 block uppercase">ҮЛДСЭН ЦАГ</span>
               <span
-                className={`text-xl font-heading font-extrabold font-mono flex items-center justify-center gap-1 ${
+                className={`text-xl font-heading font-extrabold font-mono tabular-nums flex items-center justify-center gap-1 ${
                   isDangerTime ? 'text-rose-500 animate-pulse' : 'text-cyan-400'
                 }`}
               >
@@ -639,7 +639,7 @@ export const AnimeQuiz: React.FC<AnimeQuizProps> = ({ currentUser }) => {
           </div>
 
           {/* 5-15 Second Per-Question Timer Selector */}
-          <div className="p-5 rounded-2xl bg-white/[0.03] border border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="p-4 sm:p-5 rounded-2xl bg-white/[0.03] border border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
               <span className="text-xs font-mono uppercase tracking-wider text-cyan-400 block">
                 ⏱️ Асуулт бүрийн хугацаа тохируулах (5 – 15 сек)
@@ -649,14 +649,14 @@ export const AnimeQuiz: React.FC<AnimeQuizProps> = ({ currentUser }) => {
               </p>
             </div>
 
-            <div className="flex flex-wrap items-center gap-3">
-              <div className="flex items-center gap-1.5">
+            <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3">
+              <div className="grid grid-cols-5 sm:flex items-center gap-1.5">
                 {[5, 7, 10, 12, 15].map((sec) => (
                   <button
                     key={sec}
                     type="button"
                     onClick={() => setSecondsPerQuestion(sec)}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-mono border transition-all cursor-pointer ${
+                    className={`min-h-[40px] px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-mono border transition-all cursor-pointer ${
                       secondsPerQuestion === sec
                         ? 'bg-cyan-500 text-black font-bold border-cyan-400'
                         : 'bg-white/5 border-white/10 text-slate-300 hover:bg-white/10'
@@ -667,7 +667,7 @@ export const AnimeQuiz: React.FC<AnimeQuizProps> = ({ currentUser }) => {
                 ))}
               </div>
 
-              <div className="flex items-center gap-2 bg-black/50 border border-white/10 rounded-xl px-3 py-1.5">
+              <div className="flex items-center justify-between gap-3 bg-black/50 border border-white/10 rounded-xl px-3.5 py-2">
                 <input
                   type="range"
                   min={5}
@@ -675,19 +675,19 @@ export const AnimeQuiz: React.FC<AnimeQuizProps> = ({ currentUser }) => {
                   step={1}
                   value={secondsPerQuestion}
                   onChange={(e) => setSecondsPerQuestion(Number(e.target.value))}
-                  className="w-24 accent-cyan-400 cursor-pointer"
+                  className="flex-1 sm:w-24 accent-cyan-400 cursor-pointer"
                   aria-label="Асуулт бүрийн секунд"
                 />
-                <span className="text-sm font-heading font-bold text-cyan-300 min-w-[36px] text-right">
+                <span className="text-sm font-heading font-bold text-cyan-300 min-w-[36px] text-right tabular-nums">
                   {secondsPerQuestion}с
                 </span>
               </div>
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-5 rounded-2xl bg-white/[0.04] border border-white/10">
-            <div className="flex items-center gap-3 text-sm">
-              <Sparkles className="w-5 h-5 text-purple-400 shrink-0" />
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 p-4 sm:p-5 rounded-2xl bg-white/[0.04] border border-white/10">
+            <div className="flex items-start sm:items-center gap-3 text-sm">
+              <Sparkles className="w-5 h-5 text-purple-400 shrink-0 mt-0.5 sm:mt-0" />
               <div>
                 <span className="font-heading font-bold text-white block">
                   Сонгосон түвшин: <span className={config.colorClass}>{config.label} ({config.subLabel})</span> ·{' '}
@@ -702,7 +702,7 @@ export const AnimeQuiz: React.FC<AnimeQuizProps> = ({ currentUser }) => {
 
             <button
               onClick={() => startGame(selectedDifficulty)}
-              className="w-full sm:w-auto px-7 py-3.5 bg-gradient-to-r from-purple-600 via-indigo-600 to-cyan-600 hover:from-purple-500 hover:to-cyan-500 active:scale-95 text-white font-heading font-bold text-xs tracking-wider uppercase rounded-xl shadow-[0_0_25px_rgba(147,51,234,0.4)] transition-all flex items-center justify-center gap-2 cursor-pointer shrink-0"
+              className="min-h-[48px] w-full sm:w-auto px-7 py-3.5 bg-gradient-to-r from-purple-600 via-indigo-600 to-cyan-600 hover:from-purple-500 hover:to-cyan-500 active:scale-95 text-white font-heading font-bold text-xs tracking-wider uppercase rounded-xl shadow-[0_0_25px_rgba(147,51,234,0.4)] transition-all flex items-center justify-center gap-2 cursor-pointer shrink-0"
             >
               <Play className="w-4 h-4 fill-current" />
               <span>Тоглоом эхлүүлэх</span>
@@ -746,18 +746,18 @@ export const AnimeQuiz: React.FC<AnimeQuizProps> = ({ currentUser }) => {
           </div>
 
           {/* Question Box */}
-          <div className="p-6 rounded-2xl bg-black/70 border border-white/15 text-center space-y-3">
+          <div className="p-4 sm:p-6 rounded-2xl bg-black/70 border border-white/15 text-center space-y-2.5 sm:space-y-3">
             <div className="text-4xl sm:text-5xl tracking-widest select-none">
               {questions[currentIdx].emoji}
             </div>
-            <h3 className="text-lg sm:text-2xl font-bold text-white leading-snug max-w-2xl mx-auto">
+            <h3 className="text-base sm:text-2xl font-bold text-white leading-snug max-w-2xl mx-auto">
               {questions[currentIdx].question}
             </h3>
           </div>
 
           {/* Options Grid */}
           <div
-            className={`grid gap-3 ${
+            className={`grid gap-2.5 sm:gap-3 ${
               config.optionCount >= 6
                 ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4'
                 : 'grid-cols-1 sm:grid-cols-2'
@@ -785,9 +785,9 @@ export const AnimeQuiz: React.FC<AnimeQuizProps> = ({ currentUser }) => {
                   key={opt}
                   onClick={() => handleSelectOption(opt)}
                   disabled={chosenOption !== null}
-                  className={`p-4 rounded-xl border text-left font-medium text-sm transition-all flex items-center justify-between gap-2 cursor-pointer disabled:cursor-default ${btnStyle}`}
+                  className={`min-h-[48px] p-3.5 sm:p-4 rounded-xl border text-left font-medium text-sm transition-all flex items-center justify-between gap-2 cursor-pointer disabled:cursor-default ${btnStyle}`}
                 >
-                  <span className="truncate">{opt}</span>
+                  <span className="break-words leading-snug">{opt}</span>
                   {chosenOption !== null && isCorrectAnswer && (
                     <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                   )}
@@ -803,11 +803,11 @@ export const AnimeQuiz: React.FC<AnimeQuizProps> = ({ currentUser }) => {
 
       {/* PHASE 3: LOST BY TIMEOUT */}
       {phase === 'lost_timeout' && (
-        <div className="relative z-10 p-8 rounded-2xl bg-rose-950/30 border border-rose-500/40 text-center space-y-4">
+        <div className="relative z-10 p-5 sm:p-8 rounded-2xl bg-rose-950/30 border border-rose-500/40 text-center space-y-4">
           <div className="w-16 h-16 mx-auto rounded-2xl bg-rose-500/20 border border-rose-500/40 flex items-center justify-center text-rose-400">
             <Skull className="w-9 h-9 animate-bounce" />
           </div>
-          <h3 className="text-2xl sm:text-3xl font-heading font-extrabold text-rose-400">
+          <h3 className="text-xl sm:text-3xl font-heading font-extrabold text-rose-400">
             ЦАГ ДУУСЛАА — ТА ХОЖИГДЛОО! ⏳
           </h3>
           <p className="text-slate-300 text-sm max-w-md mx-auto">
@@ -817,11 +817,11 @@ export const AnimeQuiz: React.FC<AnimeQuizProps> = ({ currentUser }) => {
             <span className="text-amber-300 font-bold">{score}</span> зөв хариуллаа.
           </p>
 
-          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+          <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center justify-center gap-2.5 sm:gap-3 pt-2">
             <button
               onClick={handleSaveScoreToDb}
               disabled={savingScore || saveMessage?.startsWith('✅')}
-              className="px-6 py-3 bg-cyan-600/25 hover:bg-cyan-600/40 disabled:opacity-50 border border-cyan-400/40 text-cyan-200 font-heading font-bold text-xs tracking-wider uppercase rounded-xl transition-all flex items-center gap-2 cursor-pointer disabled:cursor-not-allowed"
+              className="min-h-[46px] w-full sm:w-auto px-6 py-3 bg-cyan-600/25 hover:bg-cyan-600/40 disabled:opacity-50 border border-cyan-400/40 text-cyan-200 font-heading font-bold text-xs tracking-wider uppercase rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer disabled:cursor-not-allowed"
             >
               {saveMessage?.startsWith('✅') ? (
                 <Check className="w-4 h-4 text-emerald-400" />
@@ -838,14 +838,14 @@ export const AnimeQuiz: React.FC<AnimeQuizProps> = ({ currentUser }) => {
             </button>
             <button
               onClick={() => startGame(selectedDifficulty)}
-              className="px-6 py-3 bg-rose-600 hover:bg-rose-500 text-white font-heading font-bold text-xs tracking-wider uppercase rounded-xl shadow-lg transition-all flex items-center gap-2 cursor-pointer"
+              className="min-h-[46px] w-full sm:w-auto px-6 py-3 bg-rose-600 hover:bg-rose-500 text-white font-heading font-bold text-xs tracking-wider uppercase rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
               <RotateCcw className="w-4 h-4" />
               <span>Дахин оролдох</span>
             </button>
             <button
               onClick={() => setPhase('menu')}
-              className="px-6 py-3 bg-white/10 hover:bg-white/15 text-slate-200 font-heading font-bold text-xs tracking-wider uppercase rounded-xl transition-all cursor-pointer"
+              className="min-h-[46px] w-full sm:w-auto px-6 py-3 bg-white/10 hover:bg-white/15 text-slate-200 font-heading font-bold text-xs tracking-wider uppercase rounded-xl transition-all cursor-pointer"
             >
               Түвшин солих
             </button>
@@ -858,11 +858,11 @@ export const AnimeQuiz: React.FC<AnimeQuizProps> = ({ currentUser }) => {
 
       {/* PHASE 4: FINISHED IN TIME BUT LOW SCORE */}
       {phase === 'lost_score' && (
-        <div className="relative z-10 p-8 rounded-2xl bg-amber-950/30 border border-amber-500/40 text-center space-y-4">
+        <div className="relative z-10 p-5 sm:p-8 rounded-2xl bg-amber-950/30 border border-amber-500/40 text-center space-y-4">
           <div className="w-16 h-16 mx-auto rounded-2xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400">
             <XCircle className="w-9 h-9" />
           </div>
-          <h3 className="text-2xl sm:text-3xl font-heading font-extrabold text-amber-400">
+          <h3 className="text-xl sm:text-3xl font-heading font-extrabold text-amber-400">
             ОНОО ДУТЛАА — ХОЖИГДЛОО!
           </h3>
           <p className="text-slate-300 text-sm max-w-md mx-auto">
@@ -874,11 +874,11 @@ export const AnimeQuiz: React.FC<AnimeQuizProps> = ({ currentUser }) => {
             авлаа.
           </p>
 
-          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+          <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center justify-center gap-2.5 sm:gap-3 pt-2">
             <button
               onClick={handleSaveScoreToDb}
               disabled={savingScore || saveMessage?.startsWith('✅')}
-              className="px-6 py-3 bg-cyan-600/25 hover:bg-cyan-600/40 disabled:opacity-50 border border-cyan-400/40 text-cyan-200 font-heading font-bold text-xs tracking-wider uppercase rounded-xl transition-all flex items-center gap-2 cursor-pointer disabled:cursor-not-allowed"
+              className="min-h-[46px] w-full sm:w-auto px-6 py-3 bg-cyan-600/25 hover:bg-cyan-600/40 disabled:opacity-50 border border-cyan-400/40 text-cyan-200 font-heading font-bold text-xs tracking-wider uppercase rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer disabled:cursor-not-allowed"
             >
               {saveMessage?.startsWith('✅') ? (
                 <Check className="w-4 h-4 text-emerald-400" />
@@ -895,14 +895,14 @@ export const AnimeQuiz: React.FC<AnimeQuizProps> = ({ currentUser }) => {
             </button>
             <button
               onClick={() => startGame(selectedDifficulty)}
-              className="px-6 py-3 bg-amber-600 hover:bg-amber-500 text-white font-heading font-bold text-xs tracking-wider uppercase rounded-xl shadow-lg transition-all flex items-center gap-2 cursor-pointer"
+              className="min-h-[46px] w-full sm:w-auto px-6 py-3 bg-amber-600 hover:bg-amber-500 text-white font-heading font-bold text-xs tracking-wider uppercase rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
               <RotateCcw className="w-4 h-4" />
               <span>Дахин тоглох</span>
             </button>
             <button
               onClick={() => setPhase('menu')}
-              className="px-6 py-3 bg-white/10 hover:bg-white/15 text-slate-200 font-heading font-bold text-xs tracking-wider uppercase rounded-xl transition-all cursor-pointer"
+              className="min-h-[46px] w-full sm:w-auto px-6 py-3 bg-white/10 hover:bg-white/15 text-slate-200 font-heading font-bold text-xs tracking-wider uppercase rounded-xl transition-all cursor-pointer"
             >
               Түвшин солих
             </button>
@@ -915,11 +915,11 @@ export const AnimeQuiz: React.FC<AnimeQuizProps> = ({ currentUser }) => {
 
       {/* PHASE 5: WON */}
       {phase === 'won' && (
-        <div className="relative z-10 p-8 rounded-2xl bg-emerald-950/30 border border-emerald-500/40 text-center space-y-4">
+        <div className="relative z-10 p-5 sm:p-8 rounded-2xl bg-emerald-950/30 border border-emerald-500/40 text-center space-y-4">
           <div className="w-16 h-16 mx-auto rounded-2xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400">
             <Trophy className="w-9 h-9 animate-bounce" />
           </div>
-          <h3 className="text-2xl sm:text-3xl font-heading font-extrabold text-emerald-400">
+          <h3 className="text-xl sm:text-3xl font-heading font-extrabold text-emerald-400">
             БАЯР ХҮРГЭЕ — ТА ЯЛЛАА! 🏆
           </h3>
           <p className="text-slate-300 text-sm max-w-md mx-auto">
@@ -930,11 +930,11 @@ export const AnimeQuiz: React.FC<AnimeQuizProps> = ({ currentUser }) => {
             оноо авлаа!
           </p>
 
-          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+          <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center justify-center gap-2.5 sm:gap-3 pt-2">
             <button
               onClick={handleSaveScoreToDb}
               disabled={savingScore || saveMessage?.startsWith('✅')}
-              className="px-6 py-3 bg-cyan-600/25 hover:bg-cyan-600/40 disabled:opacity-50 border border-cyan-400/40 text-cyan-200 font-heading font-bold text-xs tracking-wider uppercase rounded-xl transition-all flex items-center gap-2 cursor-pointer disabled:cursor-not-allowed"
+              className="min-h-[46px] w-full sm:w-auto px-6 py-3 bg-cyan-600/25 hover:bg-cyan-600/40 disabled:opacity-50 border border-cyan-400/40 text-cyan-200 font-heading font-bold text-xs tracking-wider uppercase rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer disabled:cursor-not-allowed"
             >
               {saveMessage?.startsWith('✅') ? (
                 <Check className="w-4 h-4 text-emerald-400" />
@@ -951,14 +951,14 @@ export const AnimeQuiz: React.FC<AnimeQuizProps> = ({ currentUser }) => {
             </button>
             <button
               onClick={() => startGame(selectedDifficulty)}
-              className="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-heading font-bold text-xs tracking-wider uppercase rounded-xl shadow-lg transition-all flex items-center gap-2 cursor-pointer"
+              className="min-h-[46px] w-full sm:w-auto px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-heading font-bold text-xs tracking-wider uppercase rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
               <RotateCcw className="w-4 h-4" />
               <span>Дахин тоглох</span>
             </button>
             <button
               onClick={() => setPhase('menu')}
-              className="px-6 py-3 bg-white/10 hover:bg-white/15 text-slate-200 font-heading font-bold text-xs tracking-wider uppercase rounded-xl transition-all cursor-pointer"
+              className="min-h-[46px] w-full sm:w-auto px-6 py-3 bg-white/10 hover:bg-white/15 text-slate-200 font-heading font-bold text-xs tracking-wider uppercase rounded-xl transition-all cursor-pointer"
             >
               Дараагийн түвшин сонгох
             </button>

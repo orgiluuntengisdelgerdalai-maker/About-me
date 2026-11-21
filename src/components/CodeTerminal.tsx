@@ -142,9 +142,9 @@ export const CodeTerminal: React.FC = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 items-stretch">
         {/* Left: Original Image & Dream Card */}
-        <div className="lg:col-span-5 bg-black/90 border border-white/10 cosmic-grid rounded-3xl p-6 flex flex-col justify-between shadow-[0_0_50px_rgba(0,0,0,0.8)]">
+        <div className="lg:col-span-5 bg-black/90 border border-white/10 cosmic-grid rounded-3xl p-4 sm:p-6 flex flex-col justify-between shadow-[0_0_50px_rgba(0,0,0,0.8)]">
           <div>
             <div className="rounded-2xl overflow-hidden border border-white/10 bg-slate-950 aspect-[4/3] relative group shadow-2xl">
               <img
@@ -211,23 +211,24 @@ export const CodeTerminal: React.FC = () => {
         {/* Right: Interactive Code Editor & Terminal */}
         <div className="lg:col-span-7 bg-black/95 border border-white/10 rounded-3xl flex flex-col overflow-hidden shadow-2xl">
           {/* Terminal Title Bar */}
-          <div className="bg-white/5 border-b border-white/10 px-5 py-3.5 flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
-              <div className="w-3 h-3 rounded-full bg-yellow-500/80"></div>
-              <div className="w-3 h-3 rounded-full bg-emerald-500/80"></div>
-              <span className="text-xs font-mono text-slate-400 ml-2 flex items-center gap-1.5">
-                <Code2 className="w-3.5 h-3.5 text-cyan-400" /> orgiluuntengis-dev-env.js
+          <div className="bg-white/5 border-b border-white/10 px-4 sm:px-5 py-3 flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2 min-w-0">
+              <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-500/80 shrink-0"></div>
+              <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-yellow-500/80 shrink-0"></div>
+              <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-emerald-500/80 shrink-0"></div>
+              <span className="text-xs font-mono text-slate-400 ml-1 sm:ml-2 flex items-center gap-1.5 truncate">
+                <Code2 className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+                <span className="truncate">orgiluuntengis-dev-env.js</span>
               </span>
             </div>
 
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1 shrink-0">
               <button
                 onClick={handleCopyCode}
-                className="p-1.5 text-slate-400 hover:text-white rounded-md hover:bg-white/10 text-xs flex items-center gap-1 font-mono transition-colors cursor-pointer"
+                className="min-w-[36px] min-h-[36px] p-1.5 text-slate-400 hover:text-white rounded-md hover:bg-white/10 text-xs flex items-center justify-center gap-1 font-mono transition-colors cursor-pointer"
                 title="Код хуулах"
               >
-                {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
               </button>
             </div>
           </div>
@@ -238,7 +239,7 @@ export const CodeTerminal: React.FC = () => {
               <button
                 key={preset.id}
                 onClick={() => handleSelectPreset(preset)}
-                className={`px-3 py-1.5 rounded-lg font-mono transition-colors shrink-0 cursor-pointer ${
+                className={`min-h-[38px] px-3 py-1.5 rounded-lg font-mono transition-colors shrink-0 whitespace-nowrap cursor-pointer ${
                   selectedScript.id === preset.id
                     ? 'bg-cyan-500 text-black font-semibold shadow-sm'
                     : 'text-slate-400 hover:text-white hover:bg-white/5'
@@ -250,25 +251,25 @@ export const CodeTerminal: React.FC = () => {
           </div>
 
           {/* Code Editor Body */}
-          <div className="p-5 bg-black font-mono-code text-xs sm:text-sm overflow-x-auto flex-1">
+          <div className="p-4 sm:p-5 bg-black font-mono-code text-xs sm:text-sm overflow-x-auto flex-1">
             <textarea
               value={customCode}
               onChange={(e) => setCustomCode(e.target.value)}
               rows={8}
               spellCheck={false}
-              className="w-full bg-transparent text-emerald-300 focus:outline-none resize-none font-mono text-xs sm:text-sm leading-relaxed"
+              className="w-full bg-transparent text-emerald-300 focus:outline-none resize-none font-mono text-[13px] sm:text-sm leading-relaxed"
             />
           </div>
 
           {/* Action Bar */}
-          <div className="p-3.5 bg-white/5 border-t border-white/10 flex items-center justify-between">
+          <div className="p-3.5 bg-white/5 border-t border-white/10 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
             <span className="text-xs text-slate-400 font-mono">
               ▶ Туршиж ажиллуулах:
             </span>
             <button
               onClick={handleRunCode}
               disabled={isRunning}
-              className="px-5 py-2.5 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white text-xs font-heading font-bold tracking-wider uppercase rounded-xl shadow-lg transition-all flex items-center gap-2 cursor-pointer disabled:opacity-50"
+              className="min-h-[44px] w-full sm:w-auto px-5 py-2.5 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white text-xs font-heading font-bold tracking-wider uppercase rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
             >
               <Play className="w-3.5 h-3.5 fill-current" />
               <span>{isRunning ? 'Ажиллаж байна...' : 'Код ажиллуулах (Run)'}</span>
@@ -276,7 +277,7 @@ export const CodeTerminal: React.FC = () => {
           </div>
 
           {/* Terminal Output */}
-          <div className="bg-black p-5 border-t border-white/10 font-mono text-xs">
+          <div className="bg-black p-4 sm:p-5 border-t border-white/10 font-mono text-xs">
             <div className="flex items-center gap-2 text-slate-500 mb-2.5">
               <Terminal className="w-3.5 h-3.5 text-cyan-400" />
               <span className="tracking-widest uppercase">КОНСОЛ ГАРАЛТ (OUTPUT)</span>

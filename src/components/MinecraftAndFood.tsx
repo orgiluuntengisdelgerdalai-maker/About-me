@@ -28,9 +28,9 @@ export const MinecraftAndFood: React.FC = () => {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-10">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 my-8 sm:my-10">
       {/* Minecraft Card */}
-      <div className="bg-black/90 border border-white/10 cosmic-grid rounded-3xl p-6 lg:p-8 text-white relative overflow-hidden flex flex-col justify-between shadow-[0_0_50px_rgba(0,0,0,0.8)]">
+      <div className="bg-black/90 border border-white/10 cosmic-grid rounded-3xl p-4 sm:p-6 lg:p-8 text-white relative overflow-hidden flex flex-col justify-between shadow-[0_0_50px_rgba(0,0,0,0.8)]">
         <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
         <div>
@@ -72,13 +72,13 @@ export const MinecraftAndFood: React.FC = () => {
         </div>
 
         {/* Interactive Diamond Mining HUD */}
-        <div className="mt-6 pt-5 border-t border-white/10 flex items-center justify-between">
+        <div className="mt-6 pt-5 border-t border-white/10 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
           <div>
             <span className="text-[10px] text-slate-400 font-mono block tracking-widest uppercase">
               ОЛБОРЛОСОН АЛМААЗ
             </span>
             <div className="flex items-center gap-2">
-              <span className="text-2xl font-heading font-extrabold text-cyan-400">
+              <span className="text-2xl font-heading font-extrabold text-cyan-400 tabular-nums">
                 💎 {minedDiamonds}
               </span>
               <span className="text-xs text-slate-400 font-mono">ширхэг</span>
@@ -87,16 +87,16 @@ export const MinecraftAndFood: React.FC = () => {
 
           <button
             onClick={handleMineBlock}
-            className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-heading font-bold text-xs tracking-wider uppercase rounded-xl shadow-md transition-all flex items-center gap-1.5 cursor-pointer"
+            className="min-h-[44px] w-full sm:w-auto px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-heading font-bold text-xs tracking-wider uppercase rounded-xl shadow-md transition-all flex items-center justify-center gap-1.5 cursor-pointer"
           >
-            <Pickaxe className="w-3.5 h-3.5" />
+            <Pickaxe className="w-4 h-4" />
             <span>Алмааз ухах!</span>
           </button>
         </div>
       </div>
 
       {/* Favorite Food: Huushuur Card */}
-      <div className="bg-black/90 border border-white/10 cosmic-grid rounded-3xl p-6 lg:p-8 text-white relative overflow-hidden flex flex-col justify-between shadow-[0_0_50px_rgba(0,0,0,0.8)]">
+      <div className="bg-black/90 border border-white/10 cosmic-grid rounded-3xl p-4 sm:p-6 lg:p-8 text-white relative overflow-hidden flex flex-col justify-between shadow-[0_0_50px_rgba(0,0,0,0.8)]">
         <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
         <div>
@@ -138,13 +138,13 @@ export const MinecraftAndFood: React.FC = () => {
         </div>
 
         {/* Interactive Huushuur counter HUD */}
-        <div className="mt-6 pt-5 border-t border-white/10 flex items-center justify-between">
-          <div>
+        <div className="mt-6 pt-5 border-t border-white/10 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
+          <div className="min-w-0">
             <span className="text-[10px] text-slate-400 font-mono block tracking-widest uppercase">
               ОРГИЛУУНТЭНГИСИЙН СТАТУС
             </span>
             <div className="flex items-center gap-2">
-              <span className="text-2xl font-heading font-extrabold text-amber-400">
+              <span className="text-2xl font-heading font-extrabold text-amber-400 tabular-nums">
                 {huushuurCount} 🥟
               </span>
               <span className="text-xs text-slate-400 font-mono">хуушуур идсэн!</span>
@@ -154,9 +154,9 @@ export const MinecraftAndFood: React.FC = () => {
 
           <button
             onClick={handleEatHuushuur}
-            className="px-5 py-2.5 bg-amber-600 hover:bg-amber-500 active:scale-95 text-white font-heading font-bold text-xs tracking-wider uppercase rounded-xl shadow-md transition-all flex items-center gap-1.5 cursor-pointer"
+            className="min-h-[44px] w-full sm:w-auto px-5 py-2.5 bg-amber-600 hover:bg-amber-500 active:scale-95 text-white font-heading font-bold text-xs tracking-wider uppercase rounded-xl shadow-md transition-all flex items-center justify-center gap-1.5 cursor-pointer shrink-0"
           >
-            <Heart className="w-3.5 h-3.5 fill-current" />
+            <Heart className="w-4 h-4 fill-current" />
             <span>Хуушуур идэх!</span>
           </button>
         </div>

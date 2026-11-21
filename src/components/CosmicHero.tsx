@@ -109,23 +109,23 @@ export const CosmicHero: React.FC<CosmicHeroProps> = ({ onNavigateSection }) => 
   };
 
   return (
-    <div className="relative min-h-[640px] lg:min-h-[720px] w-full flex flex-col justify-between overflow-hidden rounded-3xl border border-white/10 bg-black cosmic-grid stars-bg p-6 lg:p-12 mb-12 shadow-[0_0_80px_rgba(0,0,0,0.9)]">
+    <div className="relative min-h-0 lg:min-h-[700px] w-full flex flex-col justify-between overflow-hidden rounded-3xl border border-white/10 bg-black cosmic-grid stars-bg p-4 pt-8 sm:p-8 lg:p-12 mb-8 sm:mb-12 shadow-[0_0_80px_rgba(0,0,0,0.9)]">
       {/* Background Deep Cosmic Gradients */}
       <div className="absolute inset-0 bg-radial from-transparent via-black/40 to-black pointer-events-none"></div>
 
       {/* Center Cosmic Phenomenon: INTERACTIVE ROTATING BLACK HOLE (Хар нүх) */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-0">
+      <div className="absolute top-36 sm:top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-0 opacity-85 sm:opacity-100">
         <BlackHoleVisual zoomLevel={zoomLevel} />
       </div>
 
       {/* Main Content Grid: Left Details + Right Related Carousel */}
-      <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center my-auto">
+      <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center my-auto">
         {/* Left Column: Big Typographic Info */}
         <div className="lg:col-span-7 flex flex-col justify-center">
-          {/* Giant Hollow Watermark Number (e.g. 02) */}
+          {/* Slide Number Index */}
           <div className="relative select-none pointer-events-none">
             <span
-              className="text-8xl sm:text-9xl font-black font-heading text-white/[0.07] absolute -top-16 -left-2 tracking-tighter"
+              className="text-6xl sm:text-8xl lg:text-9xl font-black font-heading text-white/[0.08] absolute -top-7 sm:-top-14 -left-1 sm:-left-2 tracking-tighter"
               aria-hidden="true"
             >
               {currentSlide.number}
@@ -133,8 +133,8 @@ export const CosmicHero: React.FC<CosmicHeroProps> = ({ onNavigateSection }) => 
           </div>
 
           {/* Slide Title */}
-          <div className="relative z-10">
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl text-white font-heading font-light tracking-wide leading-tight">
+          <div className="relative z-10 pt-2 sm:pt-0">
+            <h1 className="text-2xl sm:text-5xl lg:text-6xl text-white font-heading font-light tracking-wide leading-tight break-words">
               {currentSlide.titleLight}{' '}
               <span className="font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-100 to-amber-200">
                 {currentSlide.titleBold}
@@ -142,43 +142,42 @@ export const CosmicHero: React.FC<CosmicHeroProps> = ({ onNavigateSection }) => 
             </h1>
 
             {/* Description */}
-            <p className="text-slate-300 text-sm sm:text-base mt-4 max-w-xl leading-relaxed font-light">
+            <p className="text-slate-300 text-sm sm:text-base mt-3 sm:mt-4 max-w-xl leading-relaxed font-light">
               {currentSlide.description}
             </p>
 
-            {/* HUD Stat Boxes (Identical to image: Distance / Years old) */}
-            <div className="mt-8 flex flex-wrap items-stretch gap-px bg-white/10 p-px rounded-xl max-w-md backdrop-blur-md border border-white/10 overflow-hidden shadow-2xl">
-              <div className="flex-1 min-w-[140px] bg-black/80 px-4 py-3">
+            {/* HUD Stat Boxes */}
+            <div className="mt-6 sm:mt-8 grid grid-cols-1 sm:grid-cols-2 gap-px bg-white/10 p-px rounded-xl max-w-md backdrop-blur-md border border-white/10 overflow-hidden shadow-2xl">
+              <div className="bg-black/85 px-4 py-3 min-w-0">
                 <span className="text-[10px] font-mono text-slate-400 uppercase tracking-widest block mb-0.5">
                   {currentSlide.stat1Label}
                 </span>
-                <span className="text-xs sm:text-sm font-heading font-bold text-white tracking-wider">
+                <span className="text-xs sm:text-sm font-heading font-bold text-white tracking-wider block truncate">
                   {currentSlide.stat1Value}
                 </span>
               </div>
 
-              <div className="flex-1 min-w-[140px] bg-black/80 px-4 py-3">
+              <div className="bg-black/85 px-4 py-3 min-w-0">
                 <span className="text-[10px] font-mono text-slate-400 uppercase tracking-widest block mb-0.5">
                   {currentSlide.stat2Label}
                 </span>
-                <span className="text-xs sm:text-sm font-heading font-bold text-white tracking-wider">
+                <span className="text-xs sm:text-sm font-heading font-bold text-white tracking-wider block truncate">
                   {currentSlide.stat2Value}
                 </span>
               </div>
             </div>
 
             {/* SHOW MORE _ Action Link */}
-            <div className="mt-7 flex items-center gap-6">
+            <div className="mt-6 sm:mt-7 flex flex-wrap items-center gap-4 sm:gap-6">
               <button
                 onClick={handleActionClick}
-                className="group flex items-center gap-2 text-xs sm:text-sm font-heading tracking-widest uppercase text-cyan-400 hover:text-white transition-colors cursor-pointer border-b border-cyan-400/60 pb-1"
+                className="group min-h-[44px] flex items-center gap-2 text-xs sm:text-sm font-heading tracking-widest uppercase text-cyan-400 hover:text-white transition-colors cursor-pointer border-b border-cyan-400/60 py-1.5"
               >
                 <span>ДЭЛГЭРЭНГҮЙ ҮЗЭХ _</span>
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
               </button>
 
               <div className="flex items-center gap-2 text-xs font-mono text-slate-400">
-                <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
                 <span>Оргилуунтэнгисийн Ертөнц</span>
               </div>
             </div>
@@ -187,34 +186,41 @@ export const CosmicHero: React.FC<CosmicHeroProps> = ({ onNavigateSection }) => 
 
         {/* Right Column: "RELATED" / Categories Carousel Cards */}
         <div className="lg:col-span-5 flex flex-col justify-center">
-          <div className="flex items-center justify-between mb-4 px-1">
-            <span className="text-xs font-mono uppercase tracking-widest text-slate-400 flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+          <div className="flex items-center justify-between mb-3 sm:mb-4 px-1">
+            <span className="text-xs font-mono uppercase tracking-widest text-slate-400">
               СЭДВҮҮД (RELATED)
             </span>
-            <span className="text-xs text-slate-500 font-mono tracking-wider">
+            <span className="text-xs text-slate-500 font-mono tracking-wider tabular-nums">
               {activeIdx + 1} / {SLIDES.length} →
             </span>
           </div>
 
-          <div className="space-y-3">
+          <div className="space-y-2.5 sm:space-y-3">
             {SLIDES.map((slide, idx) => {
               const isActive = idx === activeIdx;
               return (
                 <div
                   key={slide.id}
                   onClick={() => setActiveIdx(idx)}
-                  className={`cursor-pointer transition-all duration-300 p-4 rounded-xl relative ${
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      setActiveIdx(idx);
+                    }
+                  }}
+                  className={`cursor-pointer transition-all duration-300 p-3.5 sm:p-4 rounded-xl relative ${
                     isActive
                       ? 'bg-black/85 border border-cyan-400/90 shadow-[0_0_25px_rgba(6,182,212,0.25)] hud-cut-card'
-                      : 'bg-black/50 border border-dashed border-white/20 hover:border-white/50 hover:bg-black/75'
+                      : 'bg-black/60 border border-dashed border-white/20 hover:border-white/50 hover:bg-black/75'
                   }`}
                 >
                   <div className="flex items-center justify-between gap-3">
-                    <div className="flex-1 pr-2">
+                    <div className="flex-1 min-w-0 pr-1">
                       <div className="flex items-center gap-2 mb-1">
                         <span
-                          className={`text-xs font-heading font-bold px-1.5 py-0.5 rounded ${
+                          className={`text-xs font-heading font-bold px-1.5 py-0.5 rounded shrink-0 ${
                             isActive
                               ? 'bg-cyan-500 text-black font-mono'
                               : 'text-slate-400 font-mono'
@@ -223,7 +229,7 @@ export const CosmicHero: React.FC<CosmicHeroProps> = ({ onNavigateSection }) => 
                           {slide.number}
                         </span>
                         <h4
-                          className={`text-sm font-heading font-bold ${
+                          className={`text-xs sm:text-sm font-heading font-bold truncate ${
                             isActive ? 'text-white' : 'text-slate-200'
                           }`}
                         >
@@ -237,7 +243,7 @@ export const CosmicHero: React.FC<CosmicHeroProps> = ({ onNavigateSection }) => 
                     </div>
 
                     {/* Circular Planet / Galaxy Orb Preview */}
-                    <div className="shrink-0 w-12 h-12 rounded-full overflow-hidden border border-white/30 bg-slate-900 p-0.5 relative group">
+                    <div className="shrink-0 w-11 h-11 sm:w-12 sm:h-12 rounded-full overflow-hidden border border-white/30 bg-slate-900 p-0.5 relative group">
                       <div
                         className={`w-full h-full rounded-full bg-gradient-to-tr ${slide.thumbColor} opacity-90 flex items-center justify-center shadow-inner`}
                       >
@@ -255,21 +261,22 @@ export const CosmicHero: React.FC<CosmicHeroProps> = ({ onNavigateSection }) => 
         </div>
       </div>
 
-      {/* Bottom HUD Dial / Zoom Slider Control: (-) |||||||||| | |||||||||| (+) */}
-      <div className="relative z-10 flex items-center justify-center pt-8 border-t border-white/10 mt-6">
-        <div className="flex items-center gap-4 bg-black/70 backdrop-blur-md px-5 py-2 rounded-full border border-white/10 text-slate-400 font-mono text-xs">
+      {/* Bottom HUD Dial / Zoom Slider Control */}
+      <div className="relative z-10 flex items-center justify-center pt-5 sm:pt-8 border-t border-white/10 mt-5 sm:mt-6">
+        <div className="flex items-center gap-3 sm:gap-4 bg-black/70 backdrop-blur-md px-3 sm:px-5 py-1.5 rounded-full border border-white/10 text-slate-400 font-mono text-xs">
           <button
             onClick={() => handleZoomChange(-0.1)}
             title="Томруулалтыг багасгах"
-            className="hover:text-white transition-colors cursor-pointer w-5 h-5 flex items-center justify-center rounded-full hover:bg-white/10"
+            aria-label="Хар нүхийг жижигрүүлэх"
+            className="hover:text-white transition-colors cursor-pointer min-w-[36px] min-h-[36px] flex items-center justify-center rounded-full hover:bg-white/10 text-base"
           >
             -
           </button>
 
           {/* Interactive Tick Marks */}
           <div className="flex items-center gap-1 select-none">
-            {[...Array(18)].map((_, i) => {
-              const isCenter = i === 9;
+            {[...Array(14)].map((_, i) => {
+              const isCenter = i === 7;
               return (
                 <div
                   key={i}
@@ -288,7 +295,8 @@ export const CosmicHero: React.FC<CosmicHeroProps> = ({ onNavigateSection }) => 
           <button
             onClick={() => handleZoomChange(0.1)}
             title="Томруулалтыг ихэсгэх"
-            className="hover:text-white transition-colors cursor-pointer w-5 h-5 flex items-center justify-center rounded-full hover:bg-white/10"
+            aria-label="Хар нүхийг томруулах"
+            className="hover:text-white transition-colors cursor-pointer min-w-[36px] min-h-[36px] flex items-center justify-center rounded-full hover:bg-white/10 text-base"
           >
             +
           </button>

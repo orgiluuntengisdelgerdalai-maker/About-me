@@ -1,11 +1,19 @@
 @import "tailwindcss";
 
 @layer base {
+  html,
   body {
     background-color: #030306;
     color: #e2e8f0;
     font-family: 'Space Grotesk', 'Plus Jakarta Sans', sans-serif;
     overflow-x: hidden;
+    -webkit-tap-highlight-color: rgba(6, 182, 212, 0.2);
+  }
+
+  button,
+  a,
+  [role="button"] {
+    touch-action: manipulation;
   }
 
   h1, h2, h3, .font-heading {
@@ -16,6 +24,10 @@
   .font-mono-code {
     font-family: 'Fira Code', monospace;
   }
+}
+
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 /* Cosmic coordinate grid pattern */

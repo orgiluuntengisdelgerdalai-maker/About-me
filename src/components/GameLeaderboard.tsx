@@ -108,20 +108,20 @@ export const GameLeaderboard: React.FC<GameLeaderboardProps> = ({
   };
 
   return (
-    <div className="bg-black/90 border border-white/10 cosmic-grid rounded-3xl p-6 lg:p-8 text-white shadow-[0_0_50px_rgba(0,0,0,0.85)] relative overflow-hidden">
+    <div className="bg-black/90 border border-white/10 cosmic-grid rounded-3xl p-4 sm:p-6 lg:p-8 text-white shadow-[0_0_50px_rgba(0,0,0,0.85)] relative overflow-hidden">
       <div className="absolute -top-12 -right-12 w-64 h-64 bg-cyan-600/10 rounded-full blur-3xl pointer-events-none"></div>
 
       {/* Header & Auth Control */}
-      <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-white/10">
+      <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-5 sm:pb-6 border-b border-white/10">
         <div>
-          <div className="flex items-center gap-2 text-cyan-400 font-mono text-xs tracking-widest uppercase">
+          <div className="flex flex-wrap items-center gap-2 text-cyan-400 font-mono text-xs tracking-widest uppercase">
             <Database className="w-3.5 h-3.5" />
             <span>FIREBASE FIRESTORE DB</span>
             <span>·</span>
             <span>БОДИТ ӨГӨГДЛИЙН САН</span>
           </div>
-          <h3 className="text-2xl font-heading font-extrabold text-white mt-1 flex items-center gap-2">
-            <Trophy className="w-6 h-6 text-amber-400" />
+          <h3 className="text-xl sm:text-2xl font-heading font-extrabold text-white mt-1 flex items-center gap-2">
+            <Trophy className="w-5 h-5 sm:w-6 sm:h-6 text-amber-400 shrink-0" />
             <span>Шилдэг Тоглогчдын Самбар</span>
           </h3>
           <p className="text-slate-400 text-xs sm:text-sm mt-1 font-light">
@@ -130,32 +130,35 @@ export const GameLeaderboard: React.FC<GameLeaderboardProps> = ({
         </div>
 
         {/* User Auth Bar */}
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3 w-full lg:w-auto">
           {currentUser ? (
-            <div className="flex items-center gap-3 bg-white/5 border border-white/15 rounded-2xl px-4 py-2">
-              {currentUser.photoURL ? (
-                <img
-                  src={currentUser.photoURL}
-                  alt={currentUser.displayName || 'User'}
-                  className="w-8 h-8 rounded-full border border-cyan-400/50 object-cover"
-                />
-              ) : (
-                <div className="w-8 h-8 rounded-full bg-cyan-500/20 border border-cyan-400/40 flex items-center justify-center text-xs font-bold text-cyan-300">
-                  {(currentUser.displayName || 'Т').slice(0, 1)}
+            <div className="w-full sm:w-auto flex items-center justify-between gap-3 bg-white/5 border border-white/15 rounded-2xl px-4 py-2">
+              <div className="flex items-center gap-3 min-w-0">
+                {currentUser.photoURL ? (
+                  <img
+                    src={currentUser.photoURL}
+                    alt={currentUser.displayName || 'User'}
+                    className="w-8 h-8 rounded-full border border-cyan-400/50 object-cover shrink-0"
+                  />
+                ) : (
+                  <div className="w-8 h-8 rounded-full bg-cyan-500/20 border border-cyan-400/40 flex items-center justify-center text-xs font-bold text-cyan-300 shrink-0">
+                    {(currentUser.displayName || 'Т').slice(0, 1)}
+                  </div>
+                )}
+                <div className="text-left min-w-0">
+                  <span className="text-xs font-heading font-bold text-white block leading-tight truncate">
+                    {currentUser.displayName || 'Тоглогч'}
+                  </span>
+                  <span className="text-[10px] font-mono text-emerald-400">
+                    DB Холбогдсон
+                  </span>
                 </div>
-              )}
-              <div className="text-left">
-                <span className="text-xs font-heading font-bold text-white block leading-tight">
-                  {currentUser.displayName || 'Тоглогч'}
-                </span>
-                <span className="text-[10px] font-mono text-emerald-400">
-                  DB Холбогдсон
-                </span>
               </div>
               <button
                 onClick={handleSignOut}
                 title="Гарах"
-                className="ml-2 p-2 text-slate-400 hover:text-rose-400 hover:bg-white/10 rounded-xl transition-colors cursor-pointer"
+                aria-label="Гарах"
+                className="min-w-[40px] min-h-[40px] flex items-center justify-center p-2 text-slate-400 hover:text-rose-400 hover:bg-white/10 rounded-xl transition-colors cursor-pointer shrink-0"
               >
                 <LogOut className="w-4 h-4" />
               </button>
@@ -164,7 +167,7 @@ export const GameLeaderboard: React.FC<GameLeaderboardProps> = ({
             <button
               onClick={handleSignIn}
               disabled={authLoading}
-              className="px-5 py-2.5 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 active:scale-95 disabled:opacity-50 text-white font-heading font-bold text-xs tracking-wider uppercase rounded-xl shadow-[0_0_20px_rgba(6,182,212,0.3)] transition-all flex items-center gap-2 cursor-pointer"
+              className="min-h-[44px] w-full sm:w-auto px-5 py-2.5 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 active:scale-95 disabled:opacity-50 text-white font-heading font-bold text-xs tracking-wider uppercase rounded-xl shadow-[0_0_20px_rgba(6,182,212,0.3)] transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
               <LogIn className="w-4 h-4" />
               <span>{authLoading ? 'Нэвтэрч байна...' : 'Google-ээр нэвтрэх'}</span>
@@ -174,11 +177,11 @@ export const GameLeaderboard: React.FC<GameLeaderboardProps> = ({
       </div>
 
       {/* Filter Tabs */}
-      <div className="relative z-10 flex flex-wrap items-center justify-between gap-4 my-5">
-        <div className="flex items-center gap-1.5 p-1 bg-white/5 border border-white/10 rounded-xl">
+      <div className="relative z-10 flex flex-wrap items-center justify-between gap-3 my-4 sm:my-5">
+        <div className="flex items-center gap-1.5 p-1 bg-white/5 border border-white/10 rounded-xl overflow-x-auto max-w-full">
           <button
             onClick={() => setFilter('all')}
-            className={`px-3.5 py-1.5 text-xs font-heading font-bold tracking-wider rounded-lg transition-all cursor-pointer ${
+            className={`min-h-[38px] px-3 sm:px-3.5 py-1.5 text-xs font-heading font-bold tracking-wider rounded-lg transition-all cursor-pointer whitespace-nowrap shrink-0 ${
               filter === 'all'
                 ? 'bg-cyan-500 text-black shadow-sm'
                 : 'text-slate-300 hover:text-white hover:bg-white/5'
@@ -188,7 +191,7 @@ export const GameLeaderboard: React.FC<GameLeaderboardProps> = ({
           </button>
           <button
             onClick={() => setFilter('basketball')}
-            className={`px-3.5 py-1.5 text-xs font-heading font-bold tracking-wider rounded-lg transition-all cursor-pointer ${
+            className={`min-h-[38px] px-3 sm:px-3.5 py-1.5 text-xs font-heading font-bold tracking-wider rounded-lg transition-all cursor-pointer whitespace-nowrap shrink-0 ${
               filter === 'basketball'
                 ? 'bg-amber-500 text-black shadow-sm'
                 : 'text-slate-300 hover:text-white hover:bg-white/5'
@@ -198,7 +201,7 @@ export const GameLeaderboard: React.FC<GameLeaderboardProps> = ({
           </button>
           <button
             onClick={() => setFilter('anime-quiz')}
-            className={`px-3.5 py-1.5 text-xs font-heading font-bold tracking-wider rounded-lg transition-all cursor-pointer ${
+            className={`min-h-[38px] px-3 sm:px-3.5 py-1.5 text-xs font-heading font-bold tracking-wider rounded-lg transition-all cursor-pointer whitespace-nowrap shrink-0 ${
               filter === 'anime-quiz'
                 ? 'bg-purple-500 text-white shadow-sm'
                 : 'text-slate-300 hover:text-white hover:bg-white/5'
@@ -208,7 +211,7 @@ export const GameLeaderboard: React.FC<GameLeaderboardProps> = ({
           </button>
         </div>
 
-        <span className="text-xs font-mono text-slate-400">
+        <span className="text-xs font-mono text-slate-400 tabular-nums">
           Нийт бүртгэл: {scores.length}
         </span>
       </div>
@@ -236,13 +239,13 @@ export const GameLeaderboard: React.FC<GameLeaderboardProps> = ({
             return (
               <div
                 key={item.id}
-                className={`p-4 rounded-2xl border flex flex-wrap items-center justify-between gap-3 transition-colors ${
+                className={`p-3.5 sm:p-4 rounded-2xl border flex items-center justify-between gap-3 transition-colors ${
                   isMine
                     ? 'bg-cyan-950/25 border-cyan-500/40'
                     : 'bg-white/[0.03] border-white/10 hover:border-white/20'
                 }`}
               >
-                <div className="flex items-center gap-3.5 min-w-0">
+                <div className="flex items-center gap-3 min-w-0 flex-1">
                   <div
                     className={`w-9 h-9 rounded-xl flex items-center justify-center font-heading font-extrabold text-sm shrink-0 ${
                       idx === 0
@@ -263,10 +266,10 @@ export const GameLeaderboard: React.FC<GameLeaderboardProps> = ({
                         {item.playerName}
                       </span>
                       {isMine && (
-                        <span className="text-[10px] font-mono text-cyan-400">· Та</span>
+                        <span className="text-[10px] font-mono text-cyan-400 shrink-0">· Та</span>
                       )}
                     </div>
-                    <div className="flex flex-wrap items-center gap-2 text-[11px] font-mono text-slate-400 mt-0.5">
+                    <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[11px] font-mono text-slate-400 mt-0.5">
                       <span>{formatGameName(item.gameId)}</span>
                       <span aria-hidden="true">·</span>
                       <span>{formatDifficulty(item.difficulty)}</span>
@@ -290,9 +293,9 @@ export const GameLeaderboard: React.FC<GameLeaderboardProps> = ({
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2 sm:gap-3 shrink-0">
                   <div className="text-right">
-                    <span className="text-xl font-heading font-extrabold text-amber-400 block leading-none">
+                    <span className="text-lg sm:text-xl font-heading font-extrabold text-amber-400 block leading-none tabular-nums">
                       {item.score}
                     </span>
                     <span className="text-[10px] font-mono text-slate-500 uppercase">
@@ -304,7 +307,8 @@ export const GameLeaderboard: React.FC<GameLeaderboardProps> = ({
                     <button
                       onClick={() => handleDelete(item.id)}
                       title="Өөрийн оноог устгах"
-                      className="p-2 text-slate-500 hover:text-rose-400 hover:bg-white/5 rounded-lg transition-colors cursor-pointer"
+                      aria-label="Өөрийн оноог устгах"
+                      className="min-w-[40px] min-h-[40px] flex items-center justify-center p-2 text-slate-500 hover:text-rose-400 hover:bg-white/5 rounded-lg transition-colors cursor-pointer"
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>

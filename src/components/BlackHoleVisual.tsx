@@ -173,17 +173,17 @@ export const BlackHoleVisual: React.FC<BlackHoleVisualProps> = ({ zoomLevel = 1 
       style={{ transform: `scale(${zoomLevel})` }}
     >
       {/* Outer ambient gravitational distortion rings */}
-      <div className="absolute w-[440px] h-[440px] md:w-[600px] md:h-[600px] rounded-full border border-orange-500/20 animate-galaxy-spin pointer-events-none"></div>
-      <div className="absolute w-[500px] h-[500px] md:w-[680px] md:h-[680px] rounded-full border border-dashed border-cyan-400/20 animate-reverse-spin pointer-events-none"></div>
+      <div className="absolute w-[280px] h-[280px] sm:w-[440px] sm:h-[440px] md:w-[600px] md:h-[600px] rounded-full border border-orange-500/20 animate-galaxy-spin pointer-events-none"></div>
+      <div className="absolute w-[330px] h-[330px] sm:w-[500px] sm:h-[500px] md:w-[680px] md:h-[680px] rounded-full border border-dashed border-cyan-400/20 animate-reverse-spin pointer-events-none"></div>
 
       {/* Relativistic Jet Stream (Vertical light beams shooting from poles) */}
-      <div className="absolute w-1.5 h-[520px] bg-gradient-to-b from-transparent via-cyan-400/70 to-transparent blur-sm pointer-events-none animate-pulse"></div>
-      <div className="absolute w-0.5 h-[480px] bg-gradient-to-b from-transparent via-white to-transparent pointer-events-none"></div>
+      <div className="absolute w-1 sm:w-1.5 h-[320px] sm:h-[520px] bg-gradient-to-b from-transparent via-cyan-400/70 to-transparent blur-sm pointer-events-none animate-pulse"></div>
+      <div className="absolute w-0.5 h-[300px] sm:h-[480px] bg-gradient-to-b from-transparent via-white to-transparent pointer-events-none"></div>
 
       {/* Interactive Canvas Rendering the Black Hole Simulation */}
       <canvas
         ref={canvasRef}
-        className="w-[320px] h-[320px] md:w-[500px] md:h-[500px] drop-shadow-[0_0_60px_rgba(249,115,22,0.5)]"
+        className="w-[240px] h-[240px] sm:w-[340px] sm:h-[340px] md:w-[500px] md:h-[500px] drop-shadow-[0_0_60px_rgba(249,115,22,0.5)]"
       />
     </div>
   );
