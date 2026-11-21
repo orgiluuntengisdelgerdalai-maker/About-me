@@ -18,7 +18,7 @@ import {
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { User } from 'firebase/auth';
-import { saveGameScore, signInWithGoogle } from '../firebase';
+import { saveGameScore, signInWithGoogle, formatFirebaseAuthError } from '../firebase';
 
 interface AnimeQuestion {
   emoji: string;
@@ -475,7 +475,7 @@ export const AnimeQuiz: React.FC<AnimeQuizProps> = ({ currentUser }) => {
       setSaveMessage('✅ DB-д амжилттай хадгалагдлаа!');
     } catch (err) {
       console.error('Failed to save anime quiz score:', err);
-      setSaveMessage('Хадгалж чадсангүй. Дахин оролдоно уу.');
+      setSaveMessage(formatFirebaseAuthError(err));
     } finally {
       setSavingScore(false);
     }

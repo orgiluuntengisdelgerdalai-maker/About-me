@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { LogIn, ArrowRight, Gamepad2, MessageSquare, Trophy, X, AlertCircle } from 'lucide-react';
-import { signInWithGoogle } from '../firebase';
+import { signInWithGoogle, formatFirebaseAuthError } from '../firebase';
 
 interface SignInModalProps {
   isOpen: boolean;
@@ -42,7 +42,7 @@ export const SignInModal: React.FC<SignInModalProps> = ({
       }
     } catch (err) {
       console.error('Entry sign-in failed:', err);
-      setErrorMsg('Google хаягаар нэвтрэхэд алдаа гарлаа. Pop-up цонх хаагдсан эсвэл блоклогдсон байж магадгүй тул дахин оролдоно уу.');
+      setErrorMsg(formatFirebaseAuthError(err));
     } finally {
       setLoading(false);
     }

@@ -17,6 +17,7 @@ import {
   signInWithGoogle,
   signOutUser,
   deleteGameScore,
+  formatFirebaseAuthError,
 } from '../firebase';
 
 interface GameLeaderboardProps {
@@ -66,7 +67,7 @@ export const GameLeaderboard: React.FC<GameLeaderboardProps> = ({
       await signInWithGoogle();
     } catch (err) {
       console.error('Sign in failed:', err);
-      setErrorMsg('Google хаягаар нэвтрэхэд алдаа гарлаа. Дахин оролдоно уу.');
+      setErrorMsg(formatFirebaseAuthError(err));
     } finally {
       setAuthLoading(false);
     }

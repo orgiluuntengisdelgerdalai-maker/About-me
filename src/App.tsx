@@ -20,7 +20,7 @@ import {
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { onAuthStateChanged, User } from 'firebase/auth';
-import { auth, syncUserProfile } from './firebase';
+import { auth, syncUserProfile, completeRedirectSignIn } from './firebase';
 
 type ActiveView = 'home' | 'games';
 
@@ -50,6 +50,7 @@ export default function App() {
   const [signInModalOpen, setSignInModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
+    completeRedirectSignIn();
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
       setAuthResolved(true);

@@ -26,6 +26,7 @@ import {
   deleteGuestbookComment,
   signInWithGoogle,
   signOutUser,
+  formatFirebaseAuthError,
 } from '../firebase';
 
 interface GuestbookProps {
@@ -141,7 +142,7 @@ export const Guestbook: React.FC<GuestbookProps> = ({ currentUser }) => {
       await signInWithGoogle();
     } catch (err) {
       console.error('Sign in failed:', err);
-      setErrorMsg('Google хаягаар нэвтрэхэд алдаа гарлаа. Дахин оролдоно уу.');
+      setErrorMsg(formatFirebaseAuthError(err));
     } finally {
       setAuthLoading(false);
     }
@@ -186,8 +187,8 @@ export const Guestbook: React.FC<GuestbookProps> = ({ currentUser }) => {
       try {
         setAuthLoading(true);
         activeUser = await signInWithGoogle();
-      } catch {
-        setErrorMsg('Зүрх дарахын тулд эхлээд Google хаягаар нэвтэрнэ үү.');
+      } catch (err) {
+        setErrorMsg(formatFirebaseAuthError(err));
         setAuthLoading(false);
         return;
       } finally {
@@ -257,7 +258,7 @@ export const Guestbook: React.FC<GuestbookProps> = ({ currentUser }) => {
       });
     } catch (err) {
       console.error('Error posting comment to Firestore:', err);
-      setErrorMsg('Сэтгэгдлийг өгөгдлийн санд хадгалахад алдаа гарлаа. Та Google-ээр нэвтэрсэн эсэхээ шалгана уу.');
+      setErrorMsg(formatFirebaseAuthError(err));
     } finally {
       setIsSubmitting(false);
     }

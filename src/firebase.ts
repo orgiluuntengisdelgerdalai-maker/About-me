@@ -1,5 +1,13 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, User } from 'firebase/auth';
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
+  signOut,
+  User,
+} from 'firebase/auth';
 import {
   getFirestore,
   doc,
@@ -24,6 +32,7 @@ const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app, firebaseConfig.firestoreDatabaseId);
 export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
+googleProvider.setCustomParameters({ prompt: 'select_account' });
 
 export enum OperationType {
   CREATE = 'create',
@@ -105,13 +114,70 @@ export interface GameScoreRecord {
   createdAt?: Timestamp | null;
 }
 
-export async function signInWithGoogle(): Promise<User | null> {
-  const result = await signInWithPopup(auth, googleProvider);
-  const user = result.user;
-  if (user) {
-    await syncUserProfile(user);
+function getAuthErrorCode(error: unknown): string {
+  if (typeof error === 'object' && error !== null && 'code' in error) {
+    return String((error as { code?: unknown }).code || '');
   }
-  return user;
+  return '';
+}
+
+export function formatFirebaseAuthError(error: unknown): string {
+  const code = getAuthErrorCode(error);
+  const host = typeof window !== 'undefined' ? window.location.hostname : '';
+
+  switch (code) {
+    case 'auth/unauthorized-domain':
+      return `Энэ домэйн (${host || 'одоогийн хаяг'}) Firebase-ийн зөвшөөрөгдсөн домэйнд бүртгэгдээгүй байна. Firebase Console → Authentication → Settings → Authorized domains хэсэгт «${host}» хаягийг нэмнэ үү.`;
+    case 'auth/popup-closed-by-user':
+    case 'auth/cancelled-popup-request':
+      return 'Та Google нэвтрэх цонхыг хаасан байна. Дахин оролдоно уу.';
+    case 'auth/popup-blocked':
+      return 'Хөтөч Pop-up цонхыг блоклосон байна. Хөтчийн тохиргооноос Pop-up зөвшөөрөөд дахин оролдоно уу.';
+    case 'auth/operation-not-supported-in-this-environment':
+      return 'Энэ хөтчийн орчинд Pop-up нэвтрэлт дэмжигдэхгүй байна. Chrome эсвэл Safari хөтчөөр нээж оролдоно уу.';
+    case 'auth/network-request-failed':
+      return 'Интернэт холболтоо шалгаад дахин оролдоно уу.';
+    default:
+      return code
+        ? `Google хаягаар нэвтрэхэд алдаа гарлаа (${code}). Дахин оролдоно уу.`
+        : 'Google хаягаар нэвтрэхэд алдаа гарлаа. Дахин оролдоно уу.';
+  }
+}
+
+export async function completeRedirectSignIn(): Promise<User | null> {
+  try {
+    const result = await getRedirectResult(auth);
+    if (result?.user) {
+      await syncUserProfile(result.user);
+      return result.user;
+    }
+    return null;
+  } catch (err) {
+    console.error('Redirect sign-in result error:', err);
+    return null;
+  }
+}
+
+export async function signInWithGoogle(): Promise<User | null> {
+  try {
+    const result = await signInWithPopup(auth, googleProvider);
+    const user = result.user;
+    if (user) {
+      await syncUserProfile(user);
+    }
+    return user;
+  } catch (error) {
+    const code = getAuthErrorCode(error);
+    const isStandaloneWindow = typeof window !== 'undefined' && window.self === window.top;
+    if (
+      isStandaloneWindow &&
+      (code === 'auth/popup-blocked' || code === 'auth/operation-not-supported-in-this-environment')
+    ) {
+      await signInWithRedirect(auth, googleProvider);
+      return null;
+    }
+    throw error;
+  }
 }
 
 export async function signOutUser(): Promise<void> {

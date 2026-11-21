@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
 import { Award, RotateCcw, VolumeX, Flame, Save, Check } from 'lucide-react';
 import { User } from 'firebase/auth';
-import { saveGameScore, signInWithGoogle } from '../firebase';
+import { saveGameScore, signInWithGoogle, formatFirebaseAuthError } from '../firebase';
 
 interface BasketballGameProps {
   currentUser?: User | null;
@@ -88,7 +88,7 @@ export const BasketballGame: React.FC<BasketballGameProps> = ({ currentUser }) =
       setSaveMessage('✅ DB-д хадгалагдлаа!');
     } catch (err) {
       console.error('Failed to save basketball score:', err);
-      setSaveMessage('Хадгалж чадсангүй. Дахин оролдоно уу.');
+      setSaveMessage(formatFirebaseAuthError(err));
     } finally {
       setSavingScore(false);
     }
