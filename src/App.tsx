@@ -7,6 +7,7 @@ import { ProjectsSection } from './components/ProjectsSection';
 import { Guestbook } from './components/Guestbook';
 import { GamesHub, GameId, GAMES_LIST } from './components/GamesHub';
 import { AnimatedGalaxyCanvas } from './components/AnimatedGalaxyCanvas';
+import { SignInModal } from './components/SignInModal';
 import {
   Sparkles,
   ArrowUpRight,
@@ -45,14 +46,23 @@ export default function App() {
   const [activeView, setActiveView] = useState<ActiveView>(initialRoute.view);
   const [activeGame, setActiveGame] = useState<GameId | null>(initialRoute.game);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [authResolved, setAuthResolved] = useState<boolean>(false);
+  const [signInModalOpen, setSignInModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
+      setAuthResolved(true);
       if (user) {
+        setSignInModalOpen(false);
         syncUserProfile(user).catch((err) => {
           console.error('Failed to sync user profile:', err);
         });
+      } else {
+        const dismissed = sessionStorage.getItem('ot_signin_dismissed') === '1';
+        if (!dismissed) {
+          setSignInModalOpen(true);
+        }
       }
     });
     return () => unsubscribe();
@@ -150,8 +160,26 @@ export default function App() {
       <div className="fixed top-0 left-1/4 w-[600px] h-[600px] bg-cyan-600/10 rounded-full blur-[140px] pointer-events-none z-0"></div>
       <div className="fixed bottom-10 right-10 w-[500px] h-[500px] bg-amber-500/10 rounded-full blur-[140px] pointer-events-none z-0"></div>
 
+      {/* Entry Sign-In Menu Modal */}
+      <SignInModal
+        isOpen={authResolved && signInModalOpen && !currentUser}
+        onContinueAsGuest={() => {
+          sessionStorage.setItem('ot_signin_dismissed', '1');
+          setSignInModalOpen(false);
+        }}
+        onSuccess={() => {
+          sessionStorage.removeItem('ot_signin_dismissed');
+          setSignInModalOpen(false);
+        }}
+      />
+
       {/* Top Navbar */}
-      <Navbar isGamesActive={activeView === 'games'} onNavClick={scrollToSection} />
+      <Navbar
+        isGamesActive={activeView === 'games'}
+        onNavClick={scrollToSection}
+        currentUser={currentUser}
+        onOpenSignIn={() => setSignInModalOpen(true)}
+      />
 
       {/* Main Container */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 pb-20 lg:pb-8 relative z-10">
