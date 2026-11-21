@@ -298,7 +298,7 @@ export default function App() {
 
             {/* SECTION 5: GUESTBOOK & CHEERS */}
             <section id="guestbook-section" className="scroll-mt-24 my-10">
-              <Guestbook />
+              <Guestbook currentUser={currentUser} />
             </section>
           </>
         )}

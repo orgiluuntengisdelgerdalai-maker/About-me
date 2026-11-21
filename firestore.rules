@@ -56,6 +56,30 @@ service cloud.firestore {
         && data.createdAt is timestamp;
     }
 
+    function isValidGuestbookBadge(badge) {
+      return badge is string
+        && badge.size() <= 40
+        && badge in ['🚀 Ирээдүйн Инженер', '🏀 Сагсан бөмбөг', '🥟 Хуушуур', '⛏️ Minecraft'];
+    }
+
+    function isValidGuestbookComment(data) {
+      return data.keys().hasAll(['userId', 'authorName', 'message', 'badge', 'likesCount', 'createdAt'])
+        && data.keys().hasOnly(['userId', 'authorName', 'message', 'badge', 'likesCount', 'createdAt'])
+        && data.userId is string && isValidId(data.userId)
+        && data.authorName is string && data.authorName.size() >= 1 && data.authorName.size() <= 50
+        && data.message is string && data.message.size() >= 1 && data.message.size() <= 500
+        && isValidGuestbookBadge(data.badge)
+        && data.likesCount is number && data.likesCount >= 0 && data.likesCount <= 1000000
+        && data.createdAt is timestamp;
+    }
+
+    function isValidGuestbookLike(data) {
+      return data.keys().hasAll(['userId', 'createdAt'])
+        && data.keys().hasOnly(['userId', 'createdAt'])
+        && data.userId is string && data.userId == request.auth.uid && isValidId(data.userId)
+        && data.createdAt is timestamp;
+    }
+
     // 4. Collection Rules: /users/{userId}
     match /users/{userId} {
       allow get: if isValidId(userId) && isOwner(userId);
@@ -89,6 +113,64 @@ service cloud.firestore {
       allow delete: if isValidId(scoreId)
         && isVerifiedUser()
         && existing().userId == request.auth.uid;
+    }
+
+    // 6. Collection Rules: /guestbook_comments/{commentId}
+    // Public non-PII comment reads bounded by badge allowlist; verified authenticated writes & atomic likes
+    match /guestbook_comments/{commentId} {
+      allow get: if isValidId(commentId) && isValidGuestbookBadge(existing().badge);
+      allow list: if isValidGuestbookBadge(existing().badge);
+      allow create: if isValidId(commentId)
+        && isVerifiedUser()
+        && isValidGuestbookComment(incoming())
+        && incoming().userId == request.auth.uid
+        && incoming().likesCount == 0
+        && incoming().createdAt == request.time;
+      allow update: if isValidId(commentId)
+        && isVerifiedUser()
+        && isValidGuestbookComment(incoming())
+        && incoming().userId == existing().userId
+        && incoming().createdAt == existing().createdAt
+        && (
+          (
+            incoming().diff(existing()).affectedKeys().hasOnly(['likesCount'])
+            && incoming().likesCount == existing().likesCount + 1
+            && !exists(/databases/$(database)/documents/guestbook_comments/$(commentId)/likes/$(request.auth.uid))
+            && existsAfter(/databases/$(database)/documents/guestbook_comments/$(commentId)/likes/$(request.auth.uid))
+          ) || (
+            incoming().diff(existing()).affectedKeys().hasOnly(['likesCount'])
+            && existing().likesCount >= 1
+            && incoming().likesCount == existing().likesCount - 1
+            && exists(/databases/$(database)/documents/guestbook_comments/$(commentId)/likes/$(request.auth.uid))
+            && !existsAfter(/databases/$(database)/documents/guestbook_comments/$(commentId)/likes/$(request.auth.uid))
+          )
+        );
+      allow delete: if isValidId(commentId)
+        && isVerifiedUser()
+        && existing().userId == request.auth.uid;
+
+      // Subcollection: /guestbook_comments/{commentId}/likes/{likeUserId}
+      match /likes/{likeUserId} {
+        allow get: if isValidId(commentId) && isValidId(likeUserId) && isOwner(likeUserId);
+        allow list: if isValidId(commentId) && isSignedIn() && existing().userId == request.auth.uid;
+        allow create: if isValidId(commentId)
+          && isValidId(likeUserId)
+          && isVerifiedUser()
+          && isOwner(likeUserId)
+          && isValidGuestbookLike(incoming())
+          && incoming().createdAt == request.time
+          && exists(/databases/$(database)/documents/guestbook_comments/$(commentId))
+          && getAfter(/databases/$(database)/documents/guestbook_comments/$(commentId)).data.likesCount
+             == get(/databases/$(database)/documents/guestbook_comments/$(commentId)).data.likesCount + 1;
+        allow update: if false;
+        allow delete: if isValidId(commentId)
+          && isValidId(likeUserId)
+          && isVerifiedUser()
+          && isOwner(likeUserId)
+          && exists(/databases/$(database)/documents/guestbook_comments/$(commentId))
+          && getAfter(/databases/$(database)/documents/guestbook_comments/$(commentId)).data.likesCount
+             == get(/databases/$(database)/documents/guestbook_comments/$(commentId)).data.likesCount - 1;
+      }
     }
   }
 }

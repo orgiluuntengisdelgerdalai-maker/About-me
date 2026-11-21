@@ -3,17 +3,19 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, User } from 'fir
 import {
   getFirestore,
   doc,
+  getDoc,
   getDocFromServer,
   setDoc,
   addDoc,
   collection,
   query,
   where,
-  orderBy,
   limit,
   onSnapshot,
   serverTimestamp,
   deleteDoc,
+  writeBatch,
+  increment,
   Timestamp,
 } from 'firebase/firestore';
 import firebaseConfig from '../firebase-applet-config.json';
@@ -241,3 +243,162 @@ export function subscribeToGameScores(
     }
   );
 }
+
+export const GUESTBOOK_BADGES = [
+  '🚀 Ирээдүйн Инженер',
+  '🏀 Сагсан бөмбөг',
+  '🥟 Хуушуур',
+  '⛏️ Minecraft',
+] as const;
+
+export type GuestbookBadge = (typeof GUESTBOOK_BADGES)[number];
+
+export interface GuestbookCommentRecord {
+  id: string;
+  userId: string;
+  authorName: string;
+  message: string;
+  badge: GuestbookBadge;
+  likesCount: number;
+  createdAt?: Timestamp | null;
+}
+
+export function subscribeToGuestbookComments(
+  onData: (comments: GuestbookCommentRecord[]) => void,
+  onError?: (err: Error) => void
+): () => void {
+  const path = 'guestbook_comments';
+  const colRef = collection(db, path);
+  const q = query(colRef, where('badge', 'in', [...GUESTBOOK_BADGES]), limit(100));
+
+  return onSnapshot(
+    q,
+    (snapshot) => {
+      const list: GuestbookCommentRecord[] = snapshot.docs
+        .map((d) => {
+          const data = d.data();
+          const rawBadge = String(data.badge || '');
+          const badge = (GUESTBOOK_BADGES.includes(rawBadge as GuestbookBadge)
+            ? rawBadge
+            : GUESTBOOK_BADGES[0]) as GuestbookBadge;
+          return {
+            id: d.id,
+            userId: String(data.userId || ''),
+            authorName: String(data.authorName || 'Зочин'),
+            message: String(data.message || ''),
+            badge,
+            likesCount: Number(data.likesCount || 0),
+            createdAt: data.createdAt || null,
+          };
+        })
+        .sort((a, b) => (b.createdAt?.toMillis() ?? 0) - (a.createdAt?.toMillis() ?? 0));
+      onData(list);
+    },
+    (error) => {
+      try {
+        handleFirestoreError(error, OperationType.LIST, path);
+      } catch (wrappedErr) {
+        if (onError && wrappedErr instanceof Error) {
+          onError(wrappedErr);
+        }
+      }
+    }
+  );
+}
+
+export async function addGuestbookComment(params: {
+  authorName: string;
+  message: string;
+  badge: GuestbookBadge;
+}): Promise<string> {
+  const user = auth.currentUser;
+  if (!user) {
+    throw new Error('Сэтгэгдэл үлдээхийн тулд эхлээд Google хаягаар нэвтэрнэ үү.');
+  }
+
+  const authorName = params.authorName.trim().slice(0, 50) || (user.displayName || 'Зочин').trim().slice(0, 50) || 'Зочин';
+  const message = params.message.trim().slice(0, 500);
+  if (!message) {
+    throw new Error('Сэтгэгдлийн хэсгийг бөглөнө үү.');
+  }
+  const badge: GuestbookBadge = GUESTBOOK_BADGES.includes(params.badge)
+    ? params.badge
+    : GUESTBOOK_BADGES[0];
+
+  const path = 'guestbook_comments';
+  try {
+    const docRef = await addDoc(collection(db, path), {
+      userId: user.uid,
+      authorName,
+      message,
+      badge,
+      likesCount: 0,
+      createdAt: serverTimestamp(),
+    });
+    return docRef.id;
+  } catch (error) {
+    handleFirestoreError(error, OperationType.CREATE, path);
+  }
+}
+
+export async function toggleGuestbookCommentLike(commentId: string): Promise<boolean> {
+  const user = auth.currentUser;
+  if (!user) {
+    throw new Error('Зүрх дарахын тулд эхлээд Google хаягаар нэвтэрнэ үү.');
+  }
+
+  const commentRef = doc(db, 'guestbook_comments', commentId);
+  const likeRef = doc(db, 'guestbook_comments', commentId, 'likes', user.uid);
+  const path = `guestbook_comments/${commentId}/likes/${user.uid}`;
+
+  try {
+    const likeSnap = await getDoc(likeRef);
+    const batch = writeBatch(db);
+    if (likeSnap.exists()) {
+      batch.delete(likeRef);
+      batch.update(commentRef, { likesCount: increment(-1) });
+      await batch.commit();
+      return false;
+    } else {
+      batch.set(likeRef, {
+        userId: user.uid,
+        createdAt: serverTimestamp(),
+      });
+      batch.update(commentRef, { likesCount: increment(1) });
+      await batch.commit();
+      return true;
+    }
+  } catch (error) {
+    handleFirestoreError(error, OperationType.WRITE, path);
+  }
+}
+
+export async function fetchUserLikedCommentIds(commentIds: string[]): Promise<Set<string>> {
+  const user = auth.currentUser;
+  if (!user || commentIds.length === 0) return new Set();
+
+  const liked = new Set<string>();
+  await Promise.all(
+    commentIds.slice(0, 50).map(async (commentId) => {
+      try {
+        const snap = await getDoc(doc(db, 'guestbook_comments', commentId, 'likes', user.uid));
+        if (snap.exists()) {
+          liked.add(commentId);
+        }
+      } catch {
+        // Ignore individual read failures so UI remains responsive
+      }
+    })
+  );
+  return liked;
+}
+
+export async function deleteGuestbookComment(commentId: string): Promise<void> {
+  const path = `guestbook_comments/${commentId}`;
+  try {
+    await deleteDoc(doc(db, 'guestbook_comments', commentId));
+  } catch (error) {
+    handleFirestoreError(error, OperationType.DELETE, path);
+  }
+}
+

@@ -89,6 +89,68 @@
         }
       },
       "required": ["userId", "playerName", "gameId", "difficulty", "score", "streak", "timeLeftSeconds", "won", "createdAt"]
+    },
+    "GuestbookComment": {
+      "title": "GuestbookComment",
+      "description": "A public visitor comment in the Guestbook stored in Firestore.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Firebase Auth UID of the comment author.",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "authorName": {
+          "type": "string",
+          "description": "Display name shown alongside the comment.",
+          "minLength": 1,
+          "maxLength": 50
+        },
+        "message": {
+          "type": "string",
+          "description": "The visitor comment or encouragement message.",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "badge": {
+          "type": "string",
+          "description": "Selected topic badge for the comment.",
+          "enum": ["🚀 Ирээдүйн Инженер", "🏀 Сагсан бөмбөг", "🥟 Хуушуур", "⛏️ Minecraft"],
+          "maxLength": 40
+        },
+        "likesCount": {
+          "type": "number",
+          "description": "Number of likes received by this comment."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when the comment was created."
+        }
+      },
+      "required": ["userId", "authorName", "message", "badge", "likesCount", "createdAt"]
+    },
+    "GuestbookLike": {
+      "title": "GuestbookLike",
+      "description": "Per-user atomic like marker for a guestbook comment.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Firebase Auth UID of the user who liked the comment.",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when the like was created."
+        }
+      },
+      "required": ["userId", "createdAt"]
     }
   },
   "firestore": {
@@ -99,6 +161,14 @@
     "/game_scores/{scoreId}": {
       "schema": { "$ref": "#/entities/GameScore" },
       "description": "Global game score records and leaderboard entries."
+    },
+    "/guestbook_comments/{commentId}": {
+      "schema": { "$ref": "#/entities/GuestbookComment" },
+      "description": "Public visitor guestbook comments and encouragement messages."
+    },
+    "/guestbook_comments/{commentId}/likes/{userId}": {
+      "schema": { "$ref": "#/entities/GuestbookLike" },
+      "description": "Per-user atomic like records ensuring one like per verified user per comment."
     }
   }
 }
